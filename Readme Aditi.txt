@@ -14,6 +14,7 @@ If i remove date and time, we need to remove date and time from the test file to
  
  
 Next Steps:
+write frequencies to a file????
 N- fold how?
 may be try it in weka after having written to the file
 calculate recall precision fscore for current training
