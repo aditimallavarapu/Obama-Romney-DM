@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Feb 25 11:26:43 2017
+Created on Tue Feb 28 21:14:39 2017
 
-@author: Aditi
+@authors: Aditi and Suganya
 """
+
 import os
 import re
 import string
@@ -51,6 +52,17 @@ class TwitterSentimentAnalysis:
                         ngram.append(' '.join(ngram_list).lower())
         #print(ngram)
         return ngram
+        
+    def generate_input_tokens(self, num, tweet):
+        tweet_tokens = nltk.word_tokenize(tweet)
+        ngram = []
+        for i, word in enumerate(tweet_tokens):
+            for n in range(1, num + 1):
+                if i + n <= len(tweet_tokens):
+                    ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
+                    ngram.append(' '.join(ngram_list).lower())
+        #print(ngram)
+        return ngram
 
    
 analysis = TwitterSentimentAnalysis()
@@ -94,8 +106,7 @@ training_set = nltk.classify.apply_features(analysis.extract_features, tweets)
 #print training_set
 print("Starting...")
 classifier = nltk.NaiveBayesClassifier.train(training_set)
-#print classifier.show_most_informative_features(32)
+print classifier.show_most_informative_features()
 print("Model built...")
-tweet = 'China hands Leads'
-print classifier.classify(analysis.extract_features(tweet.split())) #we have to modify this to use the ngram model as well
-
+tweet = '4 ppl being killed in a terrorist attack in Libya, Obama  is busy fundraising.'
+print classifier.classify(analysis.extract_features(analysis.generate_input_tokens(4, analysis.cleanup(tweet)))) 
