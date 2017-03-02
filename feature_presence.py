@@ -40,20 +40,7 @@ class TwitterSentimentAnalysis:
         word_features=wordlist.keys()
         return word_features
         
-    def extract_features(self, document, word_features):
-        """document has current line
-        need to find what words occur in this line """
-       # print document
-        # print('Hello', s, '!')
-        document_words = set(document)
-        features = {}     #need to initialise to 0 for all features in word features
-        for word in word_features:      #instead of contains should i create a frequency map
-            #features['contains(%s)' % word] = (word in document_words)
-            if word in document_words:
-                features[word]= 1
-            else:
-                features[word]=0
-        return features
+   
         
        
         
@@ -69,11 +56,23 @@ class TwitterSentimentAnalysis:
         #print(ngram)
         return ngram
 
-   
+def extract_features(self,document):
+        """document has current line
+        need to find what words occur in this line """
+       # print document
+        # print('Hello', s, '!')
+        document_words = set(document)
+        features = {}     #need to initialise to 0 for all features in word features
+        for word in word_features:      #instead of contains should i create a frequency map
+            features['contains(%s)' % word] = (word in document_words)
+            
+        return features
+        
+        
 analysis = TwitterSentimentAnalysis()
 script_dir = os.path.dirname("") #<-- absolute dir the script is in
 """Read actual file have file name here"""
-rel_path = "training_obama_tweets_nodate.txt"   #merge both files
+rel_path = "training_obama_tweets_nodate_small.txt"   #merge both files
 abs_file_path = os.path.join(script_dir, rel_path)
 f = open ( rel_path )
 lines = f.read().split("\n")
@@ -87,7 +86,7 @@ for i in range(1,num_lines):
     #unigrams
     words_filtered=[]   #remove words less than 2 letters in length
     words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-    tweets.append((words_filtered,cols[1]))
+    #tweets.append((words_filtered,cols[1]))
     quadgrams_list = analysis.generate_ngrams(4, cols[0])
     if(len(quadgrams_list) > 0):
         tweets.append((quadgrams_list,cols[1]))
@@ -105,18 +104,19 @@ for i in range(1,num_lines):
 word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 print word_features
 
-feature_set= [(analysis.extract_features(tweet,word_features),sentiment) for (tweet,sentiment) in tweets]
-print feature_set    
+#feature_set= [(analysis.extract_features(tweet,word_features),sentiment) for (tweet,sentiment) in tweets]
+#print feature_set    
 #train_set, test_set = featuresets[500:], featuresets[:500]
-classifier = nltk.NaiveBayesClassifier.train(feature_set)
+#classifier = nltk.NaiveBayesClassifier.train(feature_set)
 tweet = 'China hands Leads'
-classifier.classify(analysis.extract_features(tweet))
-#training_set = nltk.classify.apply_features(analysis.extract_features, tweets)
-#print training_set
+
+
+training_set = nltk.classify.apply_features(analysis.extract_features, tweets)
+print training_set
 #print("Starting...")
-#classifier = nltk.NaiveBayesClassifier.train(training_set)
-#print classifier.show_most_informative_features(32)
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+print classifier.show_most_informative_features(32)
 #print("Model built...")
 #tweet = 'China hands Leads'
-#print classifier.classify(analysis.extract_features(tweet.split())) #we have to modify this to use the ngram model as well
+print classifier.classify(analysis.extract_features(tweet.split())) #we have to modify this to use the ngram model as well
 

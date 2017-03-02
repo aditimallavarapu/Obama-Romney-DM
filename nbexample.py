@@ -22,29 +22,24 @@ class TwitterSentimentAnalysis:
         #may want to remove numbers
         return cleantext
              
-    def get_words_in_tweets(self, tweets):
+    def get_words_in_tweets(self, text):
         all_words = []
-        for (words, sentiment) in tweets:
+        for (words, sentiment) in text:
           all_words.extend(words)
         return all_words
     
     def get_word_features(self, wordlist):
+        features={}
         wordlist = nltk.FreqDist(wordlist)
-        word_features = wordlist.keys()
-        return word_features
-        
-    def extract_features(self, document):
-        #print document
-        document_words = set(document)
-        features = {}
-        for word in word_features:
-            features['contains(%s)' % word] = (word in document_words)
+        features = wordlist.keys()
         return features
+        
+    
         
     def generate_ngrams(self, num, tweet):
         tweet_tokens = nltk.word_tokenize(tweet)
         ngram = []
-        for i, word in enumerate(tweet_tokens):
+        for i in enumerate(tweet_tokens):
             for n in range(1, num + 1):
                 if i + n <= len(tweet_tokens):
                     ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
@@ -56,57 +51,80 @@ class TwitterSentimentAnalysis:
     def generate_input_tokens(self, num, tweet):
         tweet_tokens = nltk.word_tokenize(tweet)
         ngram = []
-        for i, word in enumerate(tweet_tokens):
+        for i in enumerate(tweet_tokens):
             for n in range(1, num + 1):
                 if i + n <= len(tweet_tokens):
                     ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
                     ngram.append(' '.join(ngram_list).lower())
         #print(ngram)
         return ngram
-
+        
+    def read_file(self,data):
+        filter_data=[]    
+        num_lines=len(data)
+        for i in range(1,num_lines-1):
+            cols = data[i].split("\t")
+            cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
+            #unigrams
+            words_filtered=[]   #remove words less than 2 letters in length
+            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+            filter_data.append((words_filtered,cols[1]))
+            words_filtered=[]
+    
+            #bigram
+            #bigrams_list = analysis.generate_ngrams(2, cols[0])
+            #if(len(bigrams_list) > 0):
+                #tweets.append((bigrams_list,cols[1]))
+#    
+#           #trigram
+#           trigrams_list = analysis.generate_ngrams(3, cols[0])
+#           if(len(trigrams_list) > 0):
+#               tweets.append((trigrams_list,cols[1]))
+#           #quadgram
+#           quadgrams_list = analysis.generate_ngrams(4, cols[0])
+#           if(len(quadgrams_list) > 0):
+#             tweets.append((quadgrams_list,cols[1]))
+        return filter_data
    
 analysis = TwitterSentimentAnalysis()
 script_dir = os.path.dirname("") #<-- absolute dir the script is in
 """Read actual file have file name here"""
-rel_path = "training_obama_tweets_nodate_small.txt"
+rel_path = "training_obama_tweets_nodate.txt"
 abs_file_path = os.path.join(script_dir, rel_path)
 f = open ( rel_path )
 tweets=[]
-#fout=open(abs_file_path+"1", 'w+')   write into this file for weka
-for line in f.readlines():
-    cols = line.split("\t")
-    cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
-    #unigrams
-    words_filtered=[]   #remove words less than 2 letters in length
-    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-    tweets.append((words_filtered,cols[1]))
-    
-    #bigram
-    bigrams_list = analysis.generate_ngrams(2, cols[0])
-    if(len(bigrams_list) > 0):
-        tweets.append((bigrams_list,cols[1]))
-    
-    #trigram
-    trigrams_list = analysis.generate_ngrams(3, cols[0])
-    if(len(trigrams_list) > 0):
-        tweets.append((trigrams_list,cols[1]))
-    #quadgram
-    quadgrams_list = analysis.generate_ngrams(4, cols[0])
-    if(len(quadgrams_list) > 0):
-        tweets.append((quadgrams_list,cols[1]))
-    """
-    """
-    
+lines = f.read().split("\n")
+tweets.extend(analysis.read_file(lines))
+f.flush()
 f.close()
+lines=[]
+#rel_path="training-Romney-tweets-nodate.txt"
+#f = open ( rel_path )
+#lines = f.read().split("\n")
+#tweets.extend(analysis.read_file(lines))
+#f.close()
 #fout.close()
-word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 
+word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
+def extract_features(document):
+    document_words = set(document)
+    features = {}
+    for word in word_features:
+        features['contains(%s)' % word] = (word in document_words)
+    return features
     
-training_set = nltk.classify.apply_features(analysis.extract_features, tweets)
+training_set = nltk.classify.apply_features(extract_features, tweets)
+tweets=[]
+third = int(float(len(training_set)) / 3.0)
+print third
+train_set = training_set[0:(2*third)]
+test_set = training_set[(2*third+1):]
+training_set=[]
 #print training_set
 print("Starting...")
-classifier = nltk.NaiveBayesClassifier.train(training_set)
-print classifier.show_most_informative_features()
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+print nltk.classify.accuracy(classifier, test_set)
+#print classifier.show_most_informative_features(32)
 print("Model built...")
-tweet = '4 ppl being killed in a terrorist attack in Libya, Obama  is busy fundraising.'
-print classifier.classify(analysis.extract_features(analysis.generate_input_tokens(4, analysis.cleanup(tweet)))) 
+#tweet = '4 ppl being killed in a terrorist attack in Libya, Obama  is busy fundraising.'
+#print classifier.classify(extract_features(analysis.generate_input_tokens(1, analysis.cleanup(tweet)))) 
