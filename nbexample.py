@@ -9,6 +9,8 @@ import os
 import re
 import string
 import nltk
+import pickle
+    
 
 class TwitterSentimentAnalysis:
     def cleanup(self, data):
@@ -19,7 +21,8 @@ class TwitterSentimentAnalysis:
         cleantext=filter(lambda x: x in ascii , cleantext)   #remove emoji and non english characters
         cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
-        #may want to remove numbers
+        cleantext = cleantext.translate(None, string.digits)
+        #cleantext = re.sub(".*\d+.*", " ", cleantext)     #replace remove numbers
         return cleantext
              
     def get_words_in_tweets(self, text):
@@ -31,15 +34,19 @@ class TwitterSentimentAnalysis:
     def get_word_features(self, wordlist):
         features={}
         wordlist = nltk.FreqDist(wordlist)
+        hapa = wordlist.hapaxes()            # remove some time later
         features = wordlist.keys()
-        return features
+        features_final= [word for word in wordlist if word not in hapa]
+        print features_final
+        
+        return features_final
         
     
         
     def generate_ngrams(self, num, tweet):
         tweet_tokens = nltk.word_tokenize(tweet)
         ngram = []
-        for i in enumerate(tweet_tokens):
+        for i, word in enumerate(tweet_tokens):
             for n in range(1, num + 1):
                 if i + n <= len(tweet_tokens):
                     ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
@@ -72,9 +79,9 @@ class TwitterSentimentAnalysis:
             words_filtered=[]
     
             #bigram
-            #bigrams_list = analysis.generate_ngrams(2, cols[0])
-            #if(len(bigrams_list) > 0):
-                #tweets.append((bigrams_list,cols[1]))
+#            bigrams_list = analysis.generate_ngrams(2, cols[0])
+#            if(len(bigrams_list) > 0):
+#                tweets.append((bigrams_list,cols[1]))
 #    
 #           #trigram
 #           trigrams_list = analysis.generate_ngrams(3, cols[0])
@@ -94,27 +101,54 @@ abs_file_path = os.path.join(script_dir, rel_path)
 f = open ( rel_path )
 tweets=[]
 lines = f.read().split("\n")
-tweets.extend(analysis.read_file(lines))
-f.flush()
+num_lines=len(lines)
+for i in range(1,num_lines-1):
+    cols = lines[i].split("\t")
+    cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
+    #unigrams
+    words_filtered=[]   #remove words less than 2 letters in length
+    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+    tweets.append((words_filtered,cols[1]))
+    
+    
+    #bigrams
+    
+    #bigrams_list = analysis.generate_ngrams(2, cols[0])
+    #if(len(bigrams_list) > 0):
+     #   tweets.append((bigrams_list,cols[1]))
+
+
+#tweets.extend(analysis.read_file(lines))
+
 f.close()
 lines=[]
-#rel_path="training-Romney-tweets-nodate.txt"
-#f = open ( rel_path )
-#lines = f.read().split("\n")
-#tweets.extend(analysis.read_file(lines))
-#f.close()
+rel_path="training-Romney-tweets-nodate.txt"
+f = open ( rel_path )
+lines = f.read().split("\n")
+num_lines=len(lines)
+for i in range(1,num_lines-1):
+    cols = lines[i].split("\t")
+    cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
+    #unigrams
+    words_filtered=[]   #remove words less than 2 letters in length
+    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+    tweets.append((words_filtered,cols[1]))
+f.close()
 #fout.close()
 
 word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
+print len(word_features)
+
 def extract_features(document):
     document_words = set(document)
     features = {}
     for word in word_features:
-        features['contains(%s)' % word] = (word in document_words)
+        #features['contains(%s)' % word] = (word in document_words)
+        features[word] = (word in document_words)
     return features
-    
+
+
 training_set = nltk.classify.apply_features(extract_features, tweets)
-tweets=[]
 third = int(float(len(training_set)) / 3.0)
 print third
 train_set = training_set[0:(2*third)]
@@ -123,6 +157,12 @@ training_set=[]
 #print training_set
 print("Starting...")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
+
+f = open('my_uni_classifier.pickle', 'wb')
+pickle.dump(classifier,f)
+f.close()
+
+print nltk.classify.accuracy(classifier, train_set)
 print nltk.classify.accuracy(classifier, test_set)
 #print classifier.show_most_informative_features(32)
 print("Model built...")
