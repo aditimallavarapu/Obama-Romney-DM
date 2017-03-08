@@ -106,35 +106,22 @@ for i in range(1,num_lines-1):
     cols = lines[i].split("\t")
     cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
     #unigrams
-    words_filtered=[]   #remove words less than 2 letters in length
-    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-    tweets.append((words_filtered,cols[1]))
+#    words_filtered=[]   #remove words less than 2 letters in length
+#    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+#    #tweets.append((words_filtered,cols[1]))
     
     
     #bigrams
     
-    #bigrams_list = analysis.generate_ngrams(2, cols[0])
-    #if(len(bigrams_list) > 0):
-     #   tweets.append((bigrams_list,cols[1]))
+    bigrams_list = analysis.generate_ngrams(2, cols[0])
+    if(len(bigrams_list) > 0):
+        tweets.append((bigrams_list,cols[1]))
 
 
 #tweets.extend(analysis.read_file(lines))
 
 f.close()
-lines=[]
-rel_path="training-Romney-tweets-nodate.txt"
-f = open ( rel_path )
-lines = f.read().split("\n")
-num_lines=len(lines)
-for i in range(1,num_lines-1):
-    cols = lines[i].split("\t")
-    cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
-    #unigrams
-    words_filtered=[]   #remove words less than 2 letters in length
-    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-    tweets.append((words_filtered,cols[1]))
-f.close()
-#fout.close()
+
 
 word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 print len(word_features)
