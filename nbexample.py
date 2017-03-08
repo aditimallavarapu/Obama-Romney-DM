@@ -10,7 +10,8 @@ import re
 import string
 import nltk
 import pickle
-    
+import xlrd
+
 
 class TwitterSentimentAnalysis:
     def cleanup(self, data):
@@ -32,16 +33,20 @@ class TwitterSentimentAnalysis:
         return all_words
     
     def get_word_features(self, wordlist):
-        features={}
         wordlist = nltk.FreqDist(wordlist)
-        hapa = wordlist.hapaxes()            # remove some time later
-        features = wordlist.keys()
-        features_final= [word for word in wordlist if word not in hapa]
-        print features_final
+        hapaxes = wordlist.hapaxes()           
+        features_final= [word for word in wordlist if word not in hapaxes]
+        #print features_final
         
         return features_final
         
-    
+    def extract_features(self, document):
+        document_words = set(document)
+        features = {}
+        for word in word_features:
+            #features['contains(%s)' % word] = (word in document_words)
+            features[word] = (word in document_words)
+        return features
         
     def generate_ngrams(self, num, tweet):
         tweet_tokens = nltk.word_tokenize(tweet)
@@ -66,17 +71,34 @@ class TwitterSentimentAnalysis:
         #print(ngram)
         return ngram
         
-    def read_file(self,data):
-        filter_data=[]    
-        num_lines=len(data)
-        for i in range(1,num_lines-1):
-            cols = data[i].split("\t")
+    def xls_to_txt(self, filename):
+        x =  xlrd.open_workbook(filename, encoding_override = "utf-8")
+        x1 = x.sheet_by_index(0)
+        x2 = x.sheet_by_index(1)
+        
+        obama_file = open('Obama_data.txt', 'wb')
+        for rownum in xrange(2,x1.nrows):
+            obama_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+        obama_file.close()
+        """
+        romney_file = open('Romney_data.txt', 'wb')
+        for rownum in xrange(2,x2.nrows):
+            romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+        romney_file.close()
+        """
+        
+    def read_file(self, filename):
+        rel_path = filename
+        abs_file_path = os.path.join(script_dir, rel_path)
+        f = open ( abs_file_path )
+        tweets=[]
+        for line in f.readlines():
+            cols = line.split("\t")
             cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
             #unigrams
             words_filtered=[]   #remove words less than 2 letters in length
             words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-            filter_data.append((words_filtered,cols[1]))
-            words_filtered=[]
+            tweets.append((words_filtered,cols[1]))
     
             #bigram
 #            bigrams_list = analysis.generate_ngrams(2, cols[0])
@@ -91,51 +113,21 @@ class TwitterSentimentAnalysis:
 #           quadgrams_list = analysis.generate_ngrams(4, cols[0])
 #           if(len(quadgrams_list) > 0):
 #             tweets.append((quadgrams_list,cols[1]))
-        return filter_data
+        f.close()
+        return tweets
    
 analysis = TwitterSentimentAnalysis()
 script_dir = os.path.dirname("") #<-- absolute dir the script is in
 """Read actual file have file name here"""
-rel_path = "training_obama_tweets_nodate.txt"
-abs_file_path = os.path.join(script_dir, rel_path)
-f = open ( rel_path )
-tweets=[]
-lines = f.read().split("\n")
-num_lines=len(lines)
-for i in range(1,num_lines-1):
-    cols = lines[i].split("\t")
-    cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
-    #unigrams
-#    words_filtered=[]   #remove words less than 2 letters in length
-#    words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-#    #tweets.append((words_filtered,cols[1]))
-    
-    
-    #bigrams
-    
-    bigrams_list = analysis.generate_ngrams(2, cols[0])
-    if(len(bigrams_list) > 0):
-        tweets.append((bigrams_list,cols[1]))
-
-
-#tweets.extend(analysis.read_file(lines))
-
-f.close()
-
+analysis.xls_to_txt('training-Obama-Romney-tweets.xlsx')
+print("Text file saved")
+#rel_path = "Obama_data.txt"
+tweets = analysis.read_file("Obama_data.txt")
 
 word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 print len(word_features)
 
-def extract_features(document):
-    document_words = set(document)
-    features = {}
-    for word in word_features:
-        #features['contains(%s)' % word] = (word in document_words)
-        features[word] = (word in document_words)
-    return features
-
-
-training_set = nltk.classify.apply_features(extract_features, tweets)
+training_set = nltk.classify.apply_features(analysis.extract_features, tweets)
 third = int(float(len(training_set)) / 3.0)
 print third
 train_set = training_set[0:(2*third)]
