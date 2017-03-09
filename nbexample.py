@@ -11,6 +11,7 @@ import string
 import nltk
 import pickle
 import xlrd
+from nltk.corpus import stopwords
 
 
 class TwitterSentimentAnalysis:
@@ -23,6 +24,9 @@ class TwitterSentimentAnalysis:
         cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
         cleantext = cleantext.translate(None, string.digits)
+        stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
+        cleantextlist = [i for i in data.lower().split() if i not in stop]      #remove stopwords except few exceptions  
+        cleantext = ' '.join(cleantextlist)
         #cleantext = re.sub(".*\d+.*", " ", cleantext)     #replace remove numbers
         return cleantext
              
@@ -115,11 +119,40 @@ class TwitterSentimentAnalysis:
 #             tweets.append((quadgrams_list,cols[1]))
         f.close()
         return tweets
+        
+    def calculate_metrics(self, test_set, class_label):
+        #precision, recall, F1score
+        results = classifier.classify_many([fs for (fs, l) in test_set])
+        tp = [l == class_label and r == class_label for ((fs, l), r) in zip(test_set, results)]
+        fp = [l != class_label and r == class_label for ((fs, l), r) in zip(test_set, results)]
+        tn = [l != class_label and r != class_label for ((fs, l), r) in zip(test_set, results)]
+        fn = [l == class_label and r != class_label for ((fs, l), r) in zip(test_set, results)]
+        classified_correct = [l == r for ((fs, l), r) in zip(test_set, results)]
+        precision_denominator = (sum(tp) + sum(fp))
+        recall_denominator = (sum(tp) + sum(fn))
+        if(precision_denominator != 0.0):
+            precision = float(sum(tp)) / precision_denominator
+        else:
+            precision = 'NAN'
+        if(recall_denominator != 0.0):
+            recall = float(sum(tp)) / (sum(tp) + sum(fn))
+        else:
+            recall = 'NAN'
+        if(precision+recall != 0.0):
+            f1score = float(2*precision*recall) / (precision + recall)
+        else:
+            f1score = 'NAN'
+        if classified_correct:
+            overall_accuracy = float(sum(classified_correct)) / len(classified_correct)
+        else:
+            overall_accuracy = 0.0
+        return precision, recall, f1score, overall_accuracy
+        
    
 analysis = TwitterSentimentAnalysis()
 script_dir = os.path.dirname("") #<-- absolute dir the script is in
 """Read actual file have file name here"""
-analysis.xls_to_txt('training-Obama-Romney-tweets.xlsx')
+analysis.xls_to_txt('training-Obama-Romney-tweets_small.xlsx')
 print("Text file saved")
 #rel_path = "Obama_data.txt"
 tweets = analysis.read_file("Obama_data.txt")
@@ -141,8 +174,35 @@ f = open('my_uni_classifier.pickle', 'wb')
 pickle.dump(classifier,f)
 f.close()
 
-print nltk.classify.accuracy(classifier, train_set)
-print nltk.classify.accuracy(classifier, test_set)
+#precision, recall, F1score
+precision_class1, recall_class1, f1score_class1, accuracy = analysis.calculate_metrics(test_set, '1')
+precision_class0, recall_class0, f1score_class0, accuracy = analysis.calculate_metrics(test_set, '0')
+precision_class2, recall_class2, f1score_class2, accuracy = analysis.calculate_metrics(test_set, '2')
+precision_class_negative, recall_class_negative, f1score_class_negative, accuracy = analysis.calculate_metrics(test_set, '-1')
+#print(sum(tp_class1))
+#print(sum(fp_class1))
+#print(sum(tn_class1))
+#print(sum(fn_class1))
+print('Class 1')
+print('Precision ', precision_class1)
+print('Recall ' , recall_class1)
+print('F1Score ' , f1score_class1)
+print('Class 0')
+print('Precision ', precision_class0)
+print('Recall ' , recall_class0)
+print('F1Score ' , f1score_class0)
+print('Class -1')
+print('Precision ', precision_class_negative)
+print('Recall ' , recall_class_negative)
+print('F1Score ' , f1score_class_negative)
+print('Class 2')
+print('Precision ', precision_class2)
+print('Recall ' , recall_class2)
+print('F1Score ' , f1score_class2)
+print('Overall Accuracy ', accuracy)
+
+#print nltk.classify.accuracy(classifier, train_set)
+#print nltk.classify.accuracy(classifier, test_set)
 #print classifier.show_most_informative_features(32)
 print("Model built...")
 #tweet = '4 ppl being killed in a terrorist attack in Libya, Obama  is busy fundraising.'
