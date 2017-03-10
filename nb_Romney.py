@@ -12,6 +12,7 @@ import nltk
 import pickle
 import xlrd
 from nltk.corpus import stopwords
+from random import shuffle
 
 
 class TwitterSentimentAnalysis:
@@ -41,8 +42,8 @@ class TwitterSentimentAnalysis:
         hapaxes = wordlist.hapaxes()           
         features_final= [word for word in wordlist if word not in hapaxes]
         #print features_final
-        
-        return features_final
+        features_short = features_final[0:10000]
+        return features_short
         
     def extract_features(self, document):
         document_words = set(document)
@@ -77,9 +78,8 @@ class TwitterSentimentAnalysis:
         
     def xls_to_txt(self, filename):
         x =  xlrd.open_workbook(filename, encoding_override = "utf-8")
-        x1 = x.sheet_by_index(0)
         x2 = x.sheet_by_index(1)
-        
+        """
         obama_file = open('Obama_data.txt', 'wb')
         for rownum in xrange(2,x1.nrows):
             obama_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
@@ -89,10 +89,11 @@ class TwitterSentimentAnalysis:
         for rownum in xrange(2,x2.nrows):
             romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
         romney_file.close()
-        """
+        
         
     def read_file(self, filename):
         rel_path = filename
+        script_dir= os.path.dirname(os.path.abspath(__file__))
         abs_file_path = os.path.join(script_dir, rel_path)
         f = open ( abs_file_path )
         tweets=[]
@@ -103,7 +104,7 @@ class TwitterSentimentAnalysis:
             words_filtered=[]   #remove words less than 2 letters in length
             words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
             tweets.append((words_filtered,cols[1]))
-    
+            
             #bigram
 #            bigrams_list = analysis.generate_ngrams(2, cols[0])
 #            if(len(bigrams_list) > 0):
@@ -118,6 +119,7 @@ class TwitterSentimentAnalysis:
 #           if(len(quadgrams_list) > 0):
 #             tweets.append((quadgrams_list,cols[1]))
         f.close()
+        shuffle(tweets)
         return tweets
         
     def calculate_metrics(self, test_set, class_label):
@@ -152,7 +154,7 @@ class TwitterSentimentAnalysis:
 analysis = TwitterSentimentAnalysis()
 script_dir = os.path.dirname("") #<-- absolute dir the script is in
 """Read actual file have file name here"""
-analysis.xls_to_txt('training-Obama-Romney-tweets_small.xlsx')
+analysis.xls_to_txt('training-Obama-Romney-tweets.xlsx')
 print("Text file saved")
 #rel_path = "Obama_data.txt"
 tweets = analysis.read_file("Obama_data.txt")
@@ -170,14 +172,14 @@ training_set=[]
 print("Starting...")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-f = open('my_uni_classifier.pickle', 'wb')
+f = open('unigram_Romeny_nb_classifier.pickle', 'wb')
 pickle.dump(classifier,f)
 f.close()
 
 #precision, recall, F1score
 precision_class1, recall_class1, f1score_class1, accuracy = analysis.calculate_metrics(test_set, '1')
 precision_class0, recall_class0, f1score_class0, accuracy = analysis.calculate_metrics(test_set, '0')
-precision_class2, recall_class2, f1score_class2, accuracy = analysis.calculate_metrics(test_set, '2')
+#precision_class2, recall_class2, f1score_class2, accuracy = analysis.calculate_metrics(test_set, '2')
 precision_class_negative, recall_class_negative, f1score_class_negative, accuracy = analysis.calculate_metrics(test_set, '-1')
 #print(sum(tp_class1))
 #print(sum(fp_class1))
@@ -195,11 +197,11 @@ print('Class -1')
 print('Precision ', precision_class_negative)
 print('Recall ' , recall_class_negative)
 print('F1Score ' , f1score_class_negative)
-print('Class 2')
+"""print('Class 2')
 print('Precision ', precision_class2)
 print('Recall ' , recall_class2)
-print('F1Score ' , f1score_class2)
-print('Overall Accuracy ', accuracy)
+print('F1Score ' , f1score_class2)"""
+print('Overall Test Accuracy ', accuracy)
 
 #print nltk.classify.accuracy(classifier, train_set)
 #print nltk.classify.accuracy(classifier, test_set)
