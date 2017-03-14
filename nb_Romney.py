@@ -97,18 +97,21 @@ class TwitterSentimentAnalysis:
         abs_file_path = os.path.join(script_dir, rel_path)
         f = open ( abs_file_path )
         tweets=[]
+   
         for line in f.readlines():
             cols = line.split("\t")
             cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
+           
+          
             #unigrams
-            words_filtered=[]   #remove words less than 2 letters in length
-            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-            tweets.append((words_filtered,cols[1]))
+#            words_filtered=[]   #remove words less than 2 letters in length
+#            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+#            tweets.append((words_filtered,cols[1]))
             
             #bigram
-#            bigrams_list = analysis.generate_ngrams(2, cols[0])
-#            if(len(bigrams_list) > 0):
-#                tweets.append((bigrams_list,cols[1]))
+            bigrams_list = analysis.generate_ngrams(2, cols[0])
+            if(len(bigrams_list) > 0):
+                tweets.append((bigrams_list,cols[1]))
 #    
 #           #trigram
 #           trigrams_list = analysis.generate_ngrams(3, cols[0])
@@ -157,7 +160,7 @@ script_dir = os.path.dirname("") #<-- absolute dir the script is in
 analysis.xls_to_txt('training-Obama-Romney-tweets.xlsx')
 print("Text file saved")
 #rel_path = "Obama_data.txt"
-tweets = analysis.read_file("Obama_data.txt")
+tweets = analysis.read_file("Romney_data.txt")
 
 word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 print len(word_features)
@@ -172,7 +175,7 @@ training_set=[]
 print("Starting...")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-f = open('unigram_Romeny_nb_classifier.pickle', 'wb')
+f = open('bigram_Romeny_nb_classifier.pickle', 'wb')
 pickle.dump(classifier,f)
 f.close()
 

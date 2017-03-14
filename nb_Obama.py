@@ -42,7 +42,7 @@ class TwitterSentimentAnalysis:
         hapaxes = wordlist.hapaxes()           
         features_final= [word for word in wordlist if word not in hapaxes]
         #print features_final
-        features_short = features_final[0:10000]
+        features_short = features_final[0:1000]
         return features_short
         
     def extract_features(self, document):
@@ -103,14 +103,14 @@ class TwitterSentimentAnalysis:
             cols = line.split("\t")
             cols[0] = analysis.cleanup(cols[0])      #write to a file new cleaned things 
             #unigrams
-            words_filtered=[]   #remove words less than 2 letters in length
-            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-            tweets.append((words_filtered,cols[1]))
+            #words_filtered=[]   #remove words less than 2 letters in length
+            #words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+            #tweets.append((words_filtered,cols[1]))
             
             #bigram
-#            bigrams_list = analysis.generate_ngrams(2, cols[0])
-#            if(len(bigrams_list) > 0):
-#                tweets.append((bigrams_list,cols[1]))
+            bigrams_list = analysis.generate_ngrams(2, cols[0])
+            if(len(bigrams_list) > 0):
+                tweets.append((bigrams_list,cols[1]))
 #    
 #           #trigram
 #           trigrams_list = analysis.generate_ngrams(3, cols[0])
@@ -177,7 +177,7 @@ training_set=[]
 print("Starting...")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-f = open('unigram_Obama_nb_classifier.pickle', 'wb')
+f = open('bigram_Obama_nb_classifier.pickle', 'wb')
 pickle.dump(classifier,f)
 f.close()
 
