@@ -104,14 +104,14 @@ class TwitterSentimentAnalysis:
            
           
             #unigrams
-#            words_filtered=[]   #remove words less than 2 letters in length
-#            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
-#            tweets.append((words_filtered,cols[1]))
+            words_filtered=[]   #remove words less than 2 letters in length
+            words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
+            tweets.append((words_filtered,cols[1]))
             
             #bigram
-            bigrams_list = analysis.generate_ngrams(2, cols[0])
-            if(len(bigrams_list) > 0):
-                tweets.append((bigrams_list,cols[1]))
+#            bigrams_list = analysis.generate_ngrams(2, cols[0])
+#            if(len(bigrams_list) > 0):
+#                tweets.append((bigrams_list,cols[1]))
 #    
 #           #trigram
 #           trigrams_list = analysis.generate_ngrams(3, cols[0])
