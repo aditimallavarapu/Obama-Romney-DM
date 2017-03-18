@@ -15,30 +15,32 @@ print("Text file saved")
 pre.clean_sets('test_romney_cleaned.txt','test_romney.txt','test_obama_cleaned.txt','test_obama.txt')
 
 romney_model = TwitterSentimentAnalysis()
-tweets = romney_model.read_file("test_romney.txt",2)
+tweets = romney_model.read_file("test_obama.txt",1)
 word_features = romney_model.get_word_features(romney_model.get_words_in_tweets(tweets))
 test_set = nltk.classify.apply_features(romney_model.extract_features, tweets)
 print("Starting...")
 #classifier = nltk.NaiveBayesClassifier.train(training_set)
 
-f = open('unigram_Romeny_nb_classifier.pickle', 'rb')
+f = open('unigram_Obama_nb_classifier.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()
 count=0
 linecount =0
 f =open("compae.txt","wb")
 for record,actual in test_set:
-    linecount=linecount+1
-    predict= classifier.classify(record)
-    print "predic:" ,predict
-    print "actual:" ,actual
-    f.write(str(record))
-    f.write("\t")
-    f.write(actual)
-    f.write("\t")
-    f.write(predict)
-    if(int(actual) is int(predict)):
-        count=count+1
+    if(actual != "ir"):
+        if(int(actual) != 2):
+            linecount=linecount+1
+            predict= classifier.classify(record)
+#        print "predic:" ,predict
+#        print "actual:" ,actual
+            f.write(str(record))
+            f.write("\t")
+            f.write(actual)
+            f.write("\t")
+            f.write(predict)
+            if(int(actual) is int(predict)):
+                count=count+1
 f.close()         
 accu = float(count)/float(linecount)
         
