@@ -26,7 +26,7 @@ class TwitterSentimentAnalysis:
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
         cleantext = cleantext.translate(None, string.digits)
         stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
-        cleantextlist = [i for i in data.lower().split() if i not in stop]      #remove stopwords except few exceptions  
+        cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
         cleantext = ' '.join(cleantextlist)
         #cleantext = re.sub(".*\d+.*", " ", cleantext)     #replace remove numbers
         return cleantext
