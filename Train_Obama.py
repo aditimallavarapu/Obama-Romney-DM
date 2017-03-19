@@ -14,21 +14,21 @@ from random import shuffle
 
 
 class TwitterSentimentAnalysis:
-    def cleanup(self, data):
-        cleantext = data.replace(",","")        #remove commas
-        cleaner = re.compile('<.*?>')           #remove tags
-        cleantext= re.sub(cleaner,'', cleantext)        
-        ascii = set(string.printable) 
-        cleantext=filter(lambda x: x in ascii , cleantext)   #remove emoji and non english characters
-        cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
-        cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
-        cleantext = cleantext.translate(None, string.digits)
-        stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
-        cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
-        cleantext = ' '.join(cleantextlist)
-        
-        #cleantext = re.sub(".*\d+.*", " ", cleantext)     #replace remove numbers
-        return cleantext
+    #    def cleanup(self, data):
+#        cleantext = data.replace(",","")        #remove commas
+#        cleaner = re.compile('<.*?>')           #remove tags
+#        cleantext= re.sub(cleaner,'', cleantext)        
+#        ascii = set(string.printable) 
+#        cleantext=filter(lambda x: x in ascii , cleantext)   #remove emoji and non english characters
+#        cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
+#        cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
+#        cleantext = cleantext.translate(None, string.digits)
+#        stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
+#        cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
+#        cleantext = ' '.join(cleantextlist)
+#        
+#        #cleantext = re.sub(".*\d+.*", " ", cleantext)     #replace remove numbers
+#        return cleantext
              
     def get_words_in_tweets(self, text):
         all_words = []
@@ -40,7 +40,6 @@ class TwitterSentimentAnalysis:
         wordlist = nltk.FreqDist(wordlist)
         hapaxes = wordlist.hapaxes()           
         features_final= [word for word in wordlist if word not in hapaxes]
-        #print features_final
         features_short = features_final[0:10000]
         return features_short
         
@@ -61,7 +60,6 @@ class TwitterSentimentAnalysis:
                     ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
                     if(len(ngram_list) == num):
                         ngram.append(' '.join(ngram_list).lower())
-        #print(ngram)
         return ngram
         
     def generate_input_tokens(self, num, tweet):
@@ -72,7 +70,6 @@ class TwitterSentimentAnalysis:
                 if i + n <= len(tweet_tokens):
                     ngram_list = [tweet_tokens[j] for j in xrange(i, i + n)]   
                     ngram.append(' '.join(ngram_list).lower())
-        #print(ngram)
         return ngram
         
     def read_file(self, filename,num_gram):
@@ -84,7 +81,7 @@ class TwitterSentimentAnalysis:
    
         for line in f.readlines():
             cols = line.split("\t")
-            cols[0] = self.cleanup(cols[0])      #write to a file new cleaned things 
+#            cols[0] = self.cleanup(cols[0])      #write to a file new cleaned things 
             if(num_gram==1):          
                 words_filtered=[]   #remove words less than 2 letters in length
                 words_filtered =[e.lower() for e in cols[0].split() if len(e)>2] 
@@ -135,7 +132,7 @@ class TwitterSentimentAnalysis:
         else:
             overall_accuracy = 0.0
         return precision, recall, f1score, overall_accuracy
-        
-obama_model = TwitterSentimentAnalysis()
-tweets = obama_model.read_file("Obama_data_cleaned.txt",1)      # does this have train data????
-word_features = obama_model.get_word_features(obama_model.get_words_in_tweets(tweets))   
+     
+    def __init__(self,filename,gram):
+        self.tweets = self.read_file("Obama_data_cleaned.txt",gram)      # does this have train data????
+        self.word_features = self.get_word_features(self.get_words_in_tweets(tweets))   

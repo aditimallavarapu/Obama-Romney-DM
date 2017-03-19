@@ -8,12 +8,9 @@ Created on Tue Feb 28 21:14:39 2017
 import os
 import re
 import string
-import nltk
-import pickle
-#import openpyxl
 import xlrd
 from nltk.corpus import stopwords
-import random
+
 
 
 class Preprocess:
@@ -47,7 +44,7 @@ class Preprocess:
             romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
         romney_file.close()
         
-    def clean_sets(self,romney_write,romney_read,obama_write,obama_read):
+    def clean_text_files(self,romney_write,romney_read,obama_write,obama_read):
         romney_file = open(romney_write, 'w')
         obama_file = open(obama_write, 'w')
         rel_path = romney_read
