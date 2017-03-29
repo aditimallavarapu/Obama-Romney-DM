@@ -25,6 +25,19 @@ Multinomial Naive Bayes Classifier - Obama
 ('F1 Score - Class -1', 0.5396398914682411)
 ('Accuracy ', 0.5224089111917923)
 
+#with stemming and no stopwords
+Multinomial Naive Bayes Classifier - Obama
+('Precision - Class 0', 0.4505464238307594)
+('Precision - Class 1', 0.49640776041714574)
+('Precision - Class -1', 0.5097150804854949)
+('Recall - Class 0', 0.3415184429051628)
+('Recall - Class 1', 0.579365653435249)
+('Recall - Class -1', 0.6339831384176026)
+('F1 Score - Class 0', 0.35254776939332644)
+('F1 Score - Class 1', 0.5062012268494714)
+('F1 Score - Class -1', 0.5350438093732206)
+('Accuracy ', 0.5182890782526715)
+
 Multinomial Naive Bayes Classifier - Romney
 ('Precision - Class 0', 0.3836407886661176)
 ('Precision - Class 1', 0.5150644823826)
@@ -49,6 +62,19 @@ Multinomial Naive Bayes Classifier - Romney
 ('F1 Score - Class 1', 0.27279805747409835)
 ('F1 Score - Class -1', 0.6366005778602619)
 ('Accuracy ', 0.40505254406757657)
+
+#with stemming and no stopwords
+Multinomial Naive Bayes Classifier - Romney
+('Precision - Class 0', 0.3945720219779691)
+('Precision - Class 1', 0.5403114213858096)
+('Precision - Class -1', 0.5293587898160371)
+('Recall - Class 0', 0.18187775391146993)
+('Recall - Class 1', 0.20872081052017294)
+('Recall - Class -1', 0.8347025127403931)
+('F1 Score - Class 0', 0.23236728507893561)
+('F1 Score - Class 1', 0.2907895810189802)
+('F1 Score - Class -1', 0.636437144739048)
+('Accuracy ', 0.4084336923906787)
 
 Bernoulli Naive Bayes Classifier - Obama
 ('Precision - Class 0', 0.42133078946750385)
@@ -75,6 +101,19 @@ Bernoulli Naive Bayes Classifier - Obama
 ('F1 Score - Class -1', 0.5123418537077173)
 ('Overall Accuracy ', 0.510803318852577)
 
+#with stemming and no stopwords
+Bernoulli Naive Bayes Classifier - Obama
+('Precision - Class 0', 0.44378079883396004)
+('Precision - Class 1', 0.46495062467635045)
+('Precision - Class -1', 0.5486442646731713)
+('Recall - Class 0', 0.32981060801909157)
+('Recall - Class 1', 0.6625343016409891)
+('Recall - Class -1', 0.5467003521587671)
+('F1 Score - Class 0', 0.3349725608651846)
+('F1 Score - Class 1', 0.5176983356163547)
+('F1 Score - Class -1', 0.5136937247319494)
+('Overall Accuracy ', 0.5130150872729493)
+
 Bernoulli Naive Bayes Classifier - Romney
 ('Precision - Class 0', 0.33762369748755505)
 ('Precision - Class 1', 0.5727175457369955)
@@ -99,6 +138,19 @@ Bernoulli Naive Bayes Classifier - Romney
 ('F1 Score - Class 1', 0.1485984575056174)
 ('F1 Score - Class -1', 0.6184535130874064)
 ('Overall Accuracy ', 0.38224723630309976)
+
+#with stemming and no stopwords
+Bernoulli Naive Bayes Classifier - Romney
+('Precision - Class 0', 0.3438605516326718)
+('Precision - Class 1', 0.5514177978883861)
+('Precision - Class -1', 0.48947810333655833)
+('Recall - Class 0', 0.14673006695852578)
+('Recall - Class 1', 0.10661207962449604)
+('Recall - Class -1', 0.9001261679315313)
+('F1 Score - Class 0', 0.1873117581632982)
+('F1 Score - Class 1', 0.17210038582901485)
+('F1 Score - Class -1', 0.6222017845691745)
+('Overall Accuracy ', 0.3844894381715176)
 
 Gaussian Naive Bayes Classifier - Obama
 ('Precision - Class 0', 0.38026162112164474)
@@ -125,6 +177,19 @@ Gaussian Naive Bayes Classifier - Obama
 ('F1 Score - Class -1', 0.3782634125775938)
 ('Overall Accuracy ', 0.421465653733215)
 
+#with stemming and no stopwords
+Gaussian Naive Bayes Classifier - Obama
+('Precision - Class 0', 0.39389387944165116)
+('Precision - Class 1', 0.3884829245034256)
+('Precision - Class -1', 0.4464011431316416)
+('Recall - Class 0', 0.21294283626369087)
+('Recall - Class 1', 0.712344050216257)
+('Recall - Class -1', 0.313245862514946)
+('F1 Score - Class 0', 0.2696352903900901)
+('F1 Score - Class 1', 0.4846288079199689)
+('F1 Score - Class -1', 0.35992501294046775)
+('Overall Accuracy ', 0.41284424966496464)
+
 Gaussian Naive Bayes Classifier - Romney
 ('Precision - Class 0', 0.2900994400198509)
 ('Precision - Class 1', 0.23135548713835688)
@@ -149,6 +214,19 @@ Gaussian Naive Bayes Classifier - Romney
 ('F1 Score - Class 1', 0.30423758404927026)
 ('F1 Score - Class -1', 0.39744537061758106)
 ('Overall Accuracy ', 0.34862209628653945)
+
+#with stemming and no stopwords
+Gaussian Naive Bayes Classifier - Romney
+('Precision - Class 0', 0.27880705173339393)
+('Precision - Class 1', 0.21475052973216985)
+('Precision - Class -1', 0.5163065898869164)
+('Recall - Class 0', 0.21989108503406074)
+('Recall - Class 1', 0.5271362357169451)
+('Recall - Class -1', 0.26646090340329265)
+('F1 Score - Class 0', 0.232764353585344)
+('F1 Score - Class 1', 0.30184420220879493)
+('F1 Score - Class -1', 0.3383889574701887)
+('Overall Accuracy ', 0.33782940805143286)
 
 Decision Tree Classifier - Obama
 ('Precision - Class 0', 0.3782368642689059)
@@ -175,6 +253,19 @@ Decision Tree Classifier - Obama
 ('F1 Score - Class -1', 0.40098950573340053)
 ('Overall Accuracy ', 0.43485277599644645)
 
+#with stemming and no stopwords
+Decision Tree Classifier - Obama
+('Precision - Class 0', 0.3859181313038607)
+('Precision - Class 1', 0.434292422544688)
+('Precision - Class -1', 0.45753838617806364)
+('Recall - Class 0', 0.4029443597965683)
+('Recall - Class 1', 0.49427859657122175)
+('Recall - Class -1', 0.4322542388436356)
+('F1 Score - Class 0', 0.36804989334769955)
+('F1 Score - Class 1', 0.4423627124855263)
+('F1 Score - Class -1', 0.4197954365400928)
+('Overall Accuracy ', 0.4431590650704752)
+
 Decision Tree Classifier - Romney
 ('Precision - Class 0', 0.30564619270918103)
 ('Precision - Class 1', 0.34254195855172304)
@@ -199,6 +290,19 @@ Decision Tree Classifier - Romney
 ('F1 Score - Class 1', 0.31605852493505493)
 ('F1 Score - Class -1', 0.5379744296080867)
 ('Overall Accuracy ', 0.3895878927387511)
+
+#with stemming and no stopwords
+Decision Tree Classifier - Romney
+('Precision - Class 0', 0.3071835972243093)
+('Precision - Class 1', 0.3225305987623027)
+('Precision - Class -1', 0.5449608102537294)
+('Recall - Class 0', 0.28830984237136004)
+('Recall - Class 1', 0.26797934951391883)
+('Recall - Class -1', 0.6079417626640768)
+('F1 Score - Class 0', 0.28649171713447685)
+('F1 Score - Class 1', 0.2890768413089235)
+('F1 Score - Class -1', 0.5660286817901199)
+('Overall Accuracy ', 0.3880769848497852)
 
 AdaBoost Classifier - Obama
 ('Precision - Class 0', 0.357143435939402)
@@ -225,6 +329,19 @@ AdaBoost Classifier - Obama
 ('F1 Score - Class -1', 0.43539088896068723)
 ('Overall Accuracy ', 0.45417095128762003)
 
+#with stemming and no stopwords
+AdaBoost Classifier - Obama
+('Precision - Class 0', 0.3655216475361293)
+('Precision - Class 1', 0.43255449177924177)
+('Precision - Class -1', 0.5113416574215444)
+('Recall - Class 0', 0.3644319949745002)
+('Recall - Class 1', 0.5570201260496029)
+('Recall - Class -1', 0.4432011555572107)
+('F1 Score - Class 0', 0.3019052461244497)
+('F1 Score - Class 1', 0.46253219454273803)
+('F1 Score - Class -1', 0.41076853440651295)
+('Overall Accuracy ', 0.4548844255271046)
+
 AdaBoost Classifier - Romney
 ('Precision - Class 0', 0.25805158310576265)
 ('Precision - Class 1', 0.46613248808295243)
@@ -249,6 +366,19 @@ AdaBoost Classifier - Romney
 ('F1 Score - Class 1', 0.21130719665071948)
 ('F1 Score - Class -1', 0.6391210456746828)
 ('Overall Accuracy ', 0.3505730458995947)
+
+#with stemming and no stopwords
+AdaBoost Classifier - Romney
+('Precision - Class 0', 0.25999999999999995)
+('Precision - Class 1', 0.5534790710999096)
+('Precision - Class -1', 0.5104999002013896)
+('Recall - Class 0', 0.014604073948441218)
+('Recall - Class 1', 0.0985321374556298)
+('Recall - Class -1', 0.9078931695462227)
+('F1 Score - Class 0', 0.026196410772128854)
+('F1 Score - Class 1', 0.1650516560514747)
+('F1 Score - Class -1', 0.6431309360448783)
+('Overall Accuracy ', 0.34034312698343133)
 
 K Nearest Neighbors Classifier - Obama
 ('Precision - Class 0', 0.4701092349335795)
@@ -275,6 +405,19 @@ K Nearest Neighbors Classifier - Obama
 ('F1 Score - Class -1', 0.18072184870959748)
 ('Overall Accuracy ', 0.36384756781767674)
 
+#with stemming and no stopwords
+K Nearest Neighbors Classifier - Obama
+('Precision - Class 0', 0.4777209922392351)
+('Precision - Class 1', 0.38293271900054043)
+('Precision - Class -1', 0.3969470344112844)
+('Recall - Class 0', 0.14629022805054545)
+('Recall - Class 1', 0.7878014742573975)
+('Recall - Class -1', 0.1583727432158402)
+('F1 Score - Class 0', 0.1304163327910391)
+('F1 Score - Class 1', 0.46375257729057723)
+('F1 Score - Class -1', 0.20264980662464108)
+('Overall Accuracy ', 0.3641548151745944)
+
 K Nearest Neighbors Classifier - Romney
 ('Precision - Class 0', 0.4416974199883598)
 ('Precision - Class 1', 0.4919609484083168)
@@ -299,6 +442,19 @@ K Nearest Neighbors Classifier - Romney
 ('F1 Score - Class 1', 0.1421390638471133)
 ('F1 Score - Class -1', 0.5460853949655275)
 ('Overall Accuracy ', 0.3742451682401976)
+
+#with stemming and no stopwords
+K Nearest Neighbors Classifier - Romney
+('Precision - Class 0', 0.41868418710150435)
+('Precision - Class 1', 0.5177385699096225)
+('Precision - Class -1', 0.45942184020738497)
+('Recall - Class 0', 0.15055912616962133)
+('Recall - Class 1', 0.1132356296886998)
+('Recall - Class -1', 0.8753391117474948)
+('F1 Score - Class 0', 0.14191245721710594)
+('F1 Score - Class 1', 0.18299558566038804)
+('F1 Score - Class -1', 0.5507704290913704)
+('Overall Accuracy ', 0.3797112892019386)
 
 Random Forest Classifier - Obama
 ('Precision - Class 0', 0.4249878644257502)
@@ -325,6 +481,19 @@ Random Forest Classifier - Obama
 ('F1 Score - Class -1', 0.4728248973206298)
 ('Overall Accuracy ', 0.4793153314412362)
 
+#with stemming and no stopwords
+Random Forest Classifier - Obama
+('Precision - Class 0', 0.4095625516472853)
+('Precision - Class 1', 0.4732686667958729)
+('Precision - Class -1', 0.48758348714782523)
+('Recall - Class 0', 0.40625303139317925)
+('Recall - Class 1', 0.5161241487681792)
+('Recall - Class -1', 0.5298768054806036)
+('F1 Score - Class 0', 0.3748928452733428)
+('F1 Score - Class 1', 0.46891650780876004)
+('F1 Score - Class -1', 0.47892254737118084)
+('Overall Accuracy ', 0.4840846618806539)
+
 Random Forest Classifier - Romney
 ('Precision - Class 0', 0.35415864090410476)
 ('Precision - Class 1', 0.4663904772491302)
@@ -349,3 +518,16 @@ Random Forest Classifier - Romney
 ('F1 Score - Class 1', 0.2896853220773655)
 ('F1 Score - Class -1', 0.6180982799524154)
 ('Overall Accuracy ', 0.40030123130255413)
+
+#with stemming and no stopwords
+Random Forest Classifier - Romney
+('Precision - Class 0', 0.35288749168210554)
+('Precision - Class 1', 0.4164860049890999)
+('Precision - Class -1', 0.5407118200337389)
+('Recall - Class 0', 0.20803595766066216)
+('Recall - Class 1', 0.2123844050599347)
+('Recall - Class -1', 0.7716840203419215)
+('F1 Score - Class 0', 0.25265853296291735)
+('F1 Score - Class 1', 0.277488001856972)
+('F1 Score - Class -1', 0.6261065714044611)
+('Overall Accuracy ', 0.3973681276875061)
