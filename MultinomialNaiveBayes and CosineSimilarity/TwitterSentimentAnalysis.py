@@ -121,7 +121,8 @@ class TwitterSentimentAnalysis:
         if(precision+recall != 0.0):
             f1score = float(2*precision*recall) / float(precision + recall)
         else:
-            f1score = 'NAN'
+            #f1score = 'NAN'
+            f1score = 0.0
         if classified_correct:
             overall_accuracy = float(sum(classified_correct)) / len(classified_correct)
         else:
