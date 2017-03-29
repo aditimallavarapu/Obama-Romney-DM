@@ -14,6 +14,7 @@ import pickle
 import xlrd
 from nltk.corpus import stopwords
 import random
+from nltk.stem.porter import PorterStemmer
 
 
 class Preprocess:
@@ -26,6 +27,9 @@ class Preprocess:
         cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
         cleantext = cleantext.translate(None, string.digits)
+        stemmer = PorterStemmer()
+        cleantextlist = [stemmer.stem(i) for i in cleantext.lower().split()]      #stem the word  
+        cleantext = ' '.join(cleantextlist)
         stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
         cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
         cleantext = ' '.join(cleantextlist)
@@ -39,12 +43,12 @@ class Preprocess:
         
         obama_file = open(obama, 'wb')
         for rownum in xrange(3,x1.nrows):
-            obama_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+            obama_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 6)]).encode('utf-8').strip()+ '\t \n')
         obama_file.close()
         
         romney_file = open(romney, 'wb')
         for rownum in xrange(3,x2.nrows):
-            romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+            romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 6)]).encode('utf-8').strip()+ '\t \n')
         romney_file.close()
         
     def clean_sets(self,romney_write,romney_read,obama_write,obama_read):
