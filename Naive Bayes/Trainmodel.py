@@ -13,7 +13,7 @@ from nltk.corpus import stopwords
 from random import shuffle
 
 
-class TwitterSentimentAnalysis:
+class Naive_Bayes:
     #    def cleanup(self, data):
 #        cleantext = data.replace(",","")        #remove commas
 #        cleaner = re.compile('<.*?>')           #remove tags

@@ -8,13 +8,13 @@ Created on Tue Mar 21 20:42:46 2017
 from TwitterSentimentAnalysis import TwitterSentimentAnalysis
 #from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import MultinomialNB
 
 
 analysis = TwitterSentimentAnalysis()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt",1)
-word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
+#word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
 
 test_tweets, test_tweetlist, test_labels = analysis.read_file("Obama_test_data_cleaned.txt",1)
 
@@ -35,7 +35,7 @@ for i in range(number_of_folds):
     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
 
-    cosine_similarities = cosine_similarity(test_tfidf_matrix, tfidf_matrix)
+    #cosine_similarities = cosine_similarity(test_tfidf_matrix, tfidf_matrix)
     clf = MultinomialNB().fit(tfidf_matrix, train_data_labels)
 
     predictions = clf.predict(test_tfidf_matrix)
