@@ -1,0 +1,53 @@
+Multinomial Naive Bayes Classifier
+('Average Precision: ', 0.5820000000000001)
+('Average Recall: ', 0.4590000000000001)
+('Average Fscore: ', 0.45099999999999996)
+('Overall Accuracy: ', 0.45897079276773295)
+
+Bernoulli Naive Bayes Classifier
+('Average Precision: ', 0.6009999999999999)
+('Average Recall: ', 0.36500000000000005)
+('Average Fscore: ', 0.32799999999999996)
+('Overall Accuracy: ', 0.3662030598052851)
+
+K Nearest Neighbors Classifier
+('Average Precision: ', 0.5149999999999999)
+('Average Recall: ', 0.34900000000000003)
+('Average Fscore: ', 0.256)
+('Overall Accuracy: ', 0.348817802503477)
+
+Decision Trees Classifier
+('Average Precision: ', 0.48)
+('Average Recall: ', 0.39)
+('Average Fscore: ', 0.387)
+('Overall Accuracy: ', 0.3892906815020862)
+
+AdaBoost Classifier
+('Average Precision: ', 0.504)
+('Average Recall: ', 0.38999999999999996)
+('Average Fscore: ', 0.35900000000000004)
+('Overall Accuracy: ', 0.39054242002781636)
+
+Random Forest Classifier
+('Average Precision: ', 0.5309999999999999)
+('Average Recall: ', 0.43099999999999994)
+('Average Fscore: ', 0.43599999999999994)
+('Overall Accuracy: ', 0.4310152990264256)
+
+Support Vector Machines
+('Average Precision: ', 0.5640000000000001)
+('Average Recall: ', 0.491)
+('Average Fscore: ', 0.49399999999999994)
+('Overall Accuracy: ', 0.48942976356050066)
+
+RBF Kernel SVM
+('Average Precision: ', 0.607)
+('Average Recall: ', 0.23500000000000001)
+('Average Fscore: ', 0.14300000000000002)
+('Overall Accuracy: ', 0.233240611961057)
+
+Polynomial Kernel SVM
+('Average Precision: ', 0.041999999999999996)
+('Average Recall: ', 0.19699999999999998)
+('Average Fscore: ', 0.06899999999999999)
+('Overall Accuracy: ', 0.19874826147426983)

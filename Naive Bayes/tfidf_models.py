@@ -17,6 +17,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import svm
 from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 
 def evaluation_metrics(clasification_report_list):
     precision_list = []
@@ -30,14 +31,15 @@ def evaluation_metrics(clasification_report_list):
         fscore_list.append(float(average_metrics[5]))
     return float(sum(precision_list))/len(precision_list), float(sum(recall_list))/len(recall_list), float(sum(fscore_list))/len(fscore_list)
     
-def print_metrics(clasification_report_list):
+def print_metrics(clasification_report_list, accuracy_score_list):
     average_precision, average_recall, average_fscore = evaluation_metrics(clasification_report_list)
     print("Average Precision: ", average_precision)
     print("Average Recall: ", average_recall)
     print("Average Fscore: ", average_fscore)
+    print("Overall Accuracy: ", float(sum(accuracy_score_list))/len(accuracy_score_list))
 
 calculate_metrics = CalculateMetrics()
-tweets, tweetlist, labels = calculate_metrics.read_file("Romney_data_cleaned.txt")
+tweets, tweetlist, labels = calculate_metrics.read_file("Obama_data_cleaned.txt")
 
 number_of_folds = 10
 subset_size = len(tweetlist)/number_of_folds
@@ -51,6 +53,16 @@ ab_report = []
 linear_svm_report = []
 rbf_svm_report = []
 poly_svm_report = []
+mnb_accuracy_list = []
+gnb_accuracy_list = []
+bnb_accuracy_list = []
+knn_accuracy_list = []
+dt_accuracy_list = []
+rf_accuracy_list = []
+ab_accuracy_list = []
+linear_svm_accuracy_list = []
+rbf_svm_accuracy_list = []
+poly_svm_accuracy_list = []
 
 
 for i in range(number_of_folds):
@@ -69,69 +81,79 @@ for i in range(number_of_folds):
     mnb_classifier = MultinomialNB().fit(tfidf_matrix, train_data_labels)
     predictions = mnb_classifier.predict(test_tfidf_matrix)
     mnb_report.append(classification_report(test_data_labels, predictions))
+    mnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
 #    gnb_classifier = GaussianNB().fit(tfidf_matrix.toarray(), train_data_labels)
 #    predictions = gnb_classifier.predict(test_tfidf_matrix.toarray())
 #    gnb_report.append(classification_report(test_data_labels, predictions))
+#    gnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     bnb_classifier = BernoulliNB().fit(tfidf_matrix, train_data_labels)
     predictions = bnb_classifier.predict(test_tfidf_matrix)
     bnb_report.append(classification_report(test_data_labels, predictions))
+    bnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     knn_classifier = KNeighborsClassifier(n_neighbors=3).fit(tfidf_matrix, train_data_labels)
     predictions = knn_classifier.predict(test_tfidf_matrix)
     knn_report.append(classification_report(test_data_labels, predictions))
+    knn_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     dt_classifier = tree.DecisionTreeClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = dt_classifier.predict(test_tfidf_matrix)
     dt_report.append(classification_report(test_data_labels, predictions))
+    dt_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     ab_classifier = AdaBoostClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = ab_classifier.predict(test_tfidf_matrix)
     ab_report.append(classification_report(test_data_labels, predictions))
+    ab_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     rf_classifier = RandomForestClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = rf_classifier.predict(test_tfidf_matrix)
     rf_report.append(classification_report(test_data_labels, predictions))
+    rf_accuracy_list.append(accuracy_score(test_data_labels, predictions))
 
     svm_classifier = svm.LinearSVC().fit(tfidf_matrix, train_data_labels)
     predictions = svm_classifier.predict(test_tfidf_matrix)
     linear_svm_report.append(classification_report(test_data_labels, predictions))
+    linear_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     rbf_classifier = svm.SVC(kernel = 'rbf', gamma = 10).fit(tfidf_matrix, train_data_labels)
     predictions = rbf_classifier.predict(test_tfidf_matrix)
     rbf_svm_report.append(classification_report(test_data_labels, predictions))
+    rbf_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
     poly_classifier = svm.SVC(kernel = 'poly').fit(tfidf_matrix, train_data_labels)
     predictions = poly_classifier.predict(test_tfidf_matrix)
     poly_svm_report.append(classification_report(test_data_labels, predictions))
+    poly_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
 print("\nMultinomial Naive Bayes Classifier")
-print_metrics(mnb_report)
+print_metrics(mnb_report, mnb_accuracy_list)
 
 #print("\nGaussian Naive Bayes Classifier")
-#print_metrics(gnb_report)
+#print_metrics(gnb_report, gnb_accuracy_list)
 
 print("\nBernoulli Naive Bayes Classifier")
-print_metrics(bnb_report)
+print_metrics(bnb_report, bnb_accuracy_list)
 
 print("\nK Nearest Neighbors Classifier")
-print_metrics(knn_report)
+print_metrics(knn_report, knn_accuracy_list)
 
 print("\nDecision Trees Classifier")
-print_metrics(dt_report)
+print_metrics(dt_report, dt_accuracy_list)
 
 print("\nAdaBoost Classifier")
-print_metrics(ab_report)
+print_metrics(ab_report, ab_accuracy_list)
 
 print("\nRandom Forest Classifier")
-print_metrics(rf_report)
+print_metrics(rf_report, rf_accuracy_list)
 
 print("\nSupport Vector Machines")
-print_metrics(linear_svm_report)
+print_metrics(linear_svm_report, linear_svm_accuracy_list)
 
 print("\nRBF Kernel SVM")
-print_metrics(rbf_svm_report)
+print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
 
 print("\nPolynomial Kernel SVM")
-print_metrics(poly_svm_report)
+print_metrics(poly_svm_report, poly_svm_accuracy_list)

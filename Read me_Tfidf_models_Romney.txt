@@ -2,43 +2,52 @@ Multinomial Naive Bayes Classifier
 ('Average Precision: ', 0.618)
 ('Average Recall: ', 0.5710000000000001)
 ('Average Fscore: ', 0.516)
+('Overall Accuracy: ', 0.5709318497913769)
 
 Bernoulli Naive Bayes Classifier
 ('Average Precision: ', 0.579)
 ('Average Recall: ', 0.507)
 ('Average Fscore: ', 0.42400000000000004)
+('Overall Accuracy: ', 0.5065368567454799)
 
 K Nearest Neighbors Classifier
 ('Average Precision: ', 0.5210000000000001)
 ('Average Recall: ', 0.383)
 ('Average Fscore: ', 0.29599999999999993)
+('Overall Accuracy: ', 0.38219749652294854)
 
 Decision Trees Classifier
-('Average Precision: ', 0.51)
-('Average Recall: ', 0.475)
-('Average Fscore: ', 0.483)
+('Average Precision: ', 0.514)
+('Average Recall: ', 0.48100000000000004)
+('Average Fscore: ', 0.48999999999999994)
+('Overall Accuracy: ', 0.480250347705146)
 
 AdaBoost Classifier
 ('Average Precision: ', 0.5670000000000001)
 ('Average Recall: ', 0.5599999999999999)
 ('Average Fscore: ', 0.526)
+('Overall Accuracy: ', 0.5605006954102921)
 
 Random Forest Classifier
 ('Average Precision: ', 0.5519999999999999)
-('Average Recall: ', 0.536)
-('Average Fscore: ', 0.529)
+('Average Recall: ', 0.528)
+('Average Fscore: ', 0.5239999999999999)
+('Overall Accuracy: ', 0.5294853963838666)
 
 Support Vector Machines
 ('Average Precision: ', 0.6050000000000001)
 ('Average Recall: ', 0.594)
 ('Average Fscore: ', 0.5820000000000001)
+('Overall Accuracy: ', 0.5938803894297635)
 
 RBF Kernel SVM
 ('Average Precision: ', 0.536)
 ('Average Recall: ', 0.43000000000000005)
 ('Average Fscore: ', 0.298)
+('Overall Accuracy: ', 0.4292072322670376)
 
 Polynomial Kernel SVM
 ('Average Precision: ', 0.185)
 ('Average Recall: ', 0.41400000000000003)
 ('Average Fscore: ', 0.252)
+('Overall Accuracy: ', 0.413769123783032)
