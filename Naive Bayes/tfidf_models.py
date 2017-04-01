@@ -2,124 +2,55 @@
 """
 Created on Tue Mar 21 20:42:46 2017
 
-@author: Suganya
+@author: Aditi and Suganya
 """
 
 from CalculateMetrics import CalculateMetrics
 from sklearn.feature_extraction.text import TfidfVectorizer
 #from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.naive_bayes import GaussianNB
+#from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn import svm
+from sklearn.metrics import classification_report
 
-def evaluation_metrics(precisionlist0, precisionlist1, precisionlist_1, recalllist0, recalllist1, recalllist_1, f1scorelist0, f1scorelist1, f1scorelist_1, accuracylist):
-    precision0, recall0, f1score0, class_accuracy0, overall_accuracy = calculate_metrics.metrics("0\n", predictions, test_data_labels)
-    precision1, recall1, f1score1, class_accuracy1, overall_accuracy = calculate_metrics.metrics("1\n", predictions, test_data_labels)
-    precision_1, recall_1, f1score_1, class_accuracy_1, overall_accuracy = calculate_metrics.metrics("-1\n", predictions, test_data_labels)
-    precisionlist0.append(precision0)
-    precisionlist1.append(precision1)
-    precisionlist_1.append(precision_1)
-    recalllist0.append(recall0)
-    recalllist1.append(recall1)
-    recalllist_1.append(recall_1)
-    f1scorelist0.append(f1score0)
-    f1scorelist1.append(f1score1)
-    f1scorelist_1.append(f1score_1)
-    accuracylist.append((class_accuracy0 + class_accuracy1 + class_accuracy_1) / 3)
-    return precisionlist0, precisionlist1, precisionlist_1, recalllist0, recalllist1, recalllist_1, f1scorelist0, f1scorelist1, f1scorelist_1, accuracylist
-
-def print_values(precisionlist0, precisionlist1, precisionlist_1, recalllist0, recalllist1, recalllist_1, f1scorelist0, f1scorelist1, f1scorelist_1, accuracylist):
-    print("Precision - Class 0", sum(precisionlist0) / float(len(precisionlist0)))
-    print("Precision - Class 1", sum(precisionlist1) / float(len(precisionlist1)))
-    print("Precision - Class -1", sum(precisionlist_1) / float(len(precisionlist_1)))
-    print("Recall - Class 0", sum(recalllist0) / float(len(recalllist0)))
-    print("Recall - Class 1", sum(recalllist1) / float(len(recalllist1)))
-    print("Recall - Class -1", sum(recalllist_1) / float(len(recalllist_1)))
-    print("F1 Score - Class 0", sum(f1scorelist0) / float(len(f1scorelist0)))
-    print("F1 Score - Class 1", sum(f1scorelist1) / float(len(f1scorelist1)))
-    print("F1 Score - Class -1", sum(f1scorelist_1) / float(len(f1scorelist_1)))
-    print("Overall Accuracy ", sum(accuracylist) / float(len(accuracylist)))
+def evaluation_metrics(clasification_report_list):
+    precision_list = []
+    recall_list = []
+    fscore_list = []
+    for clasification_report in clasification_report_list:
+        lines = clasification_report.split('\n')
+        average_metrics = lines[9].split()
+        precision_list.append(float(average_metrics[3]))
+        recall_list.append(float(average_metrics[4]))
+        fscore_list.append(float(average_metrics[5]))
+    return float(sum(precision_list))/len(precision_list), float(sum(recall_list))/len(recall_list), float(sum(fscore_list))/len(fscore_list)
+    
+def print_metrics(clasification_report_list):
+    average_precision, average_recall, average_fscore = evaluation_metrics(clasification_report_list)
+    print("Average Precision: ", average_precision)
+    print("Average Recall: ", average_recall)
+    print("Average Fscore: ", average_fscore)
 
 calculate_metrics = CalculateMetrics()
-tweets, tweetlist, labels = calculate_metrics.read_file("Obama_data_cleaned.txt")
-#word_features = analysis.get_word_features(analysis.get_words_in_tweets(tweets))
+tweets, tweetlist, labels = calculate_metrics.read_file("Romney_data_cleaned.txt")
 
 number_of_folds = 10
 subset_size = len(tweetlist)/number_of_folds
-mnb_precisionlist0 = []
-mnb_precisionlist1 = []
-mnb_precisionlist_1=[]
-mnb_recalllist0 =[]
-mnb_recalllist1=[]
-mnb_recalllist_1=[]
-mnb_f1scorelist0=[]
-mnb_f1scorelist1=[]
-mnb_f1scorelist_1=[]
-mnb_accuracylist = []
-gnb_precisionlist0=[]
-gnb_precisionlist1=[]
-gnb_precisionlist_1=[]
-gnb_recalllist0=[]
-gnb_recalllist1=[]
-gnb_recalllist_1=[]
-gnb_f1scorelist0=[]
-gnb_f1scorelist1=[]
-gnb_f1scorelist_1=[]
-gnb_accuracylist = []
-bnb_precisionlist0=[]
-bnb_precisionlist1=[]
-bnb_precisionlist_1=[]
-bnb_recalllist0=[]
-bnb_recalllist1=[]
-bnb_recalllist_1=[]
-bnb_f1scorelist0=[]
-bnb_f1scorelist1=[]
-bnb_f1scorelist_1=[]
-bnb_accuracylist = []
-knn_precisionlist0=[]
-knn_precisionlist1=[]
-knn_precisionlist_1=[]
-knn_recalllist0=[]
-knn_recalllist1=[]
-knn_recalllist_1=[]
-knn_f1scorelist0=[]
-knn_f1scorelist1=[]
-knn_f1scorelist_1=[]
-knn_accuracylist = []
-dt_precisionlist0=[]
-dt_precisionlist1=[]
-dt_precisionlist_1=[]
-dt_recalllist0=[]
-dt_recalllist1=[]
-dt_recalllist_1=[]
-dt_f1scorelist0=[]
-dt_f1scorelist1=[]
-dt_f1scorelist_1=[]
-dt_accuracylist = []
-ab_precisionlist0=[]
-ab_precisionlist1=[]
-ab_precisionlist_1=[]
-ab_recalllist0=[]
-ab_recalllist1=[]
-ab_recalllist_1=[]
-ab_f1scorelist0=[]
-ab_f1scorelist1=[]
-ab_f1scorelist_1=[]
-ab_accuracylist = []
-rf_precisionlist0=[]
-rf_precisionlist1=[]
-rf_precisionlist_1=[]
-rf_recalllist0=[]
-rf_recalllist1=[]
-rf_recalllist_1=[]
-rf_f1scorelist0=[]
-rf_f1scorelist1=[]
-rf_f1scorelist_1=[]
-rf_accuracylist = []
+mnb_report = []
+gnb_report = []
+bnb_report = []
+knn_report = []
+dt_report = []
+rf_report = []
+ab_report = []
+linear_svm_report = []
+rbf_svm_report = []
+poly_svm_report = []
 
 
 for i in range(number_of_folds):
@@ -127,57 +58,80 @@ for i in range(number_of_folds):
     train_data = tweetlist[:i*subset_size] + tweetlist[(i+1)*subset_size:]
     test_data_labels = labels[i*subset_size:][:subset_size]
     train_data_labels = labels[:i*subset_size] + labels[(i+1)*subset_size:]
-    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=0,
+                             max_df = 1.0,
+                             sublinear_tf=True,
+                             use_idf=True)
 #    tfidf_vectorizer = CountVectorizer()
     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-
-#    cosine_similarities = cosine_similarity(test_tfidf_matrix, tfidf_matrix)
+    
     mnb_classifier = MultinomialNB().fit(tfidf_matrix, train_data_labels)
     predictions = mnb_classifier.predict(test_tfidf_matrix)
-    mnb_precisionlist0, mnb_precisionlist1, mnb_precisionlist_1, mnb_recalllist0, mnb_recalllist1, mnb_recalllist_1, mnb_f1scorelist0, mnb_f1scorelist1, mnb_f1scorelist_1, mnb_accuracylist = evaluation_metrics(mnb_precisionlist0, mnb_precisionlist1, mnb_precisionlist_1, mnb_recalllist0, mnb_recalllist1, mnb_recalllist_1, mnb_f1scorelist0, mnb_f1scorelist1, mnb_f1scorelist_1, mnb_accuracylist)
+    mnb_report.append(classification_report(test_data_labels, predictions))
     
-    gnb_classifier = GaussianNB().fit(tfidf_matrix, train_data_labels)
-    predictions = gnb_classifier.predict(test_tfidf_matrix)
-    gnb_precisionlist0, gnb_precisionlist1, gnb_precisionlist_1, gnb_recalllist0, gnb_recalllist1, gnb_recalllist_1, gnb_f1scorelist0, gnb_f1scorelist1, gnb_f1scorelist_1, gnb_accuracylist = evaluation_metrics(gnb_precisionlist0, gnb_precisionlist1, gnb_precisionlist_1, gnb_recalllist0, gnb_recalllist1, gnb_recalllist_1, gnb_f1scorelist0, gnb_f1scorelist1, gnb_f1scorelist_1, gnb_accuracylist)
+#    gnb_classifier = GaussianNB().fit(tfidf_matrix.toarray(), train_data_labels)
+#    predictions = gnb_classifier.predict(test_tfidf_matrix.toarray())
+#    gnb_report.append(classification_report(test_data_labels, predictions))
     
     bnb_classifier = BernoulliNB().fit(tfidf_matrix, train_data_labels)
     predictions = bnb_classifier.predict(test_tfidf_matrix)
-    bnb_precisionlist0, bnb_precisionlist1, bnb_precisionlist_1, bnb_recalllist0, bnb_recalllist1, bnb_recalllist_1, bnb_f1scorelist0, bnb_f1scorelist1, bnb_f1scorelist_1, bnb_accuracylist = evaluation_metrics(bnb_precisionlist0, bnb_precisionlist1, bnb_precisionlist_1, bnb_recalllist0, bnb_recalllist1, bnb_recalllist_1, bnb_f1scorelist0, bnb_f1scorelist1, bnb_f1scorelist_1, bnb_accuracylist)
+    bnb_report.append(classification_report(test_data_labels, predictions))
     
     knn_classifier = KNeighborsClassifier(n_neighbors=3).fit(tfidf_matrix, train_data_labels)
     predictions = knn_classifier.predict(test_tfidf_matrix)
-    knn_precisionlist0, knn_precisionlist1, knn_precisionlist_1, knn_recalllist0, knn_recalllist1, knn_recalllist_1, knn_f1scorelist0, knn_f1scorelist1, knn_f1scorelist_1, knn_accuracylist = evaluation_metrics(knn_precisionlist0, knn_precisionlist1, knn_precisionlist_1, knn_recalllist0, knn_recalllist1, knn_recalllist_1, knn_f1scorelist0, knn_f1scorelist1, knn_f1scorelist_1, knn_accuracylist)
+    knn_report.append(classification_report(test_data_labels, predictions))
     
     dt_classifier = tree.DecisionTreeClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = dt_classifier.predict(test_tfidf_matrix)
-    dt_precisionlist0, dt_precisionlist1, dt_precisionlist_1, dt_recalllist0, dt_recalllist1, dt_recalllist_1, dt_f1scorelist0, dt_f1scorelist1, dt_f1scorelist_1, dt_accuracylist = evaluation_metrics(dt_precisionlist0, dt_precisionlist1, dt_precisionlist_1, dt_recalllist0, dt_recalllist1, dt_recalllist_1, dt_f1scorelist0, dt_f1scorelist1, dt_f1scorelist_1, dt_accuracylist)
+    dt_report.append(classification_report(test_data_labels, predictions))
     
     ab_classifier = AdaBoostClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = ab_classifier.predict(test_tfidf_matrix)
-    ab_precisionlist0, ab_precisionlist1, ab_precisionlist_1, ab_recalllist0, ab_recalllist1, ab_recalllist_1, ab_f1scorelist0, ab_f1scorelist1, ab_f1scorelist_1, ab_accuracylist = evaluation_metrics(ab_precisionlist0, ab_precisionlist1, ab_precisionlist_1, ab_recalllist0, ab_recalllist1, ab_recalllist_1, ab_f1scorelist0, ab_f1scorelist1, ab_f1scorelist_1, ab_accuracylist)
+    ab_report.append(classification_report(test_data_labels, predictions))
     
     rf_classifier = RandomForestClassifier().fit(tfidf_matrix, train_data_labels)
     predictions = rf_classifier.predict(test_tfidf_matrix)
-    rf_precisionlist0, rf_precisionlist1, rf_precisionlist_1, rf_recalllist0, rf_recalllist1, rf_recalllist_1, rf_f1scorelist0, rf_f1scorelist1, rf_f1scorelist_1, rf_accuracylist = evaluation_metrics(rf_precisionlist0, rf_precisionlist1, rf_precisionlist_1, rf_recalllist0, rf_recalllist1, rf_recalllist_1, rf_f1scorelist0, rf_f1scorelist1, rf_f1scorelist_1, rf_accuracylist)
+    rf_report.append(classification_report(test_data_labels, predictions))
+
+    svm_classifier = svm.LinearSVC().fit(tfidf_matrix, train_data_labels)
+    predictions = svm_classifier.predict(test_tfidf_matrix)
+    linear_svm_report.append(classification_report(test_data_labels, predictions))
     
-print("Multinomial Naive Bayes Classifier - Obama")
-print_values(mnb_precisionlist0, mnb_precisionlist1, mnb_precisionlist_1, mnb_recalllist0, mnb_recalllist1, mnb_recalllist_1, mnb_f1scorelist0, mnb_f1scorelist1, mnb_f1scorelist_1, mnb_accuracylist)
+    rbf_classifier = svm.SVC(kernel = 'rbf', gamma = 10).fit(tfidf_matrix, train_data_labels)
+    predictions = rbf_classifier.predict(test_tfidf_matrix)
+    rbf_svm_report.append(classification_report(test_data_labels, predictions))
+    
+    poly_classifier = svm.SVC(kernel = 'poly').fit(tfidf_matrix, train_data_labels)
+    predictions = poly_classifier.predict(test_tfidf_matrix)
+    poly_svm_report.append(classification_report(test_data_labels, predictions))
+    
+print("\nMultinomial Naive Bayes Classifier")
+print_metrics(mnb_report)
 
-print("Gaussian Naive Bayes Classifier - Obama")
-print_values(gnb_precisionlist0, gnb_precisionlist1, gnb_precisionlist_1, gnb_recalllist0, gnb_recalllist1, gnb_recalllist_1, gnb_f1scorelist0, gnb_f1scorelist1, gnb_f1scorelist_1, gnb_accuracylist)
+#print("\nGaussian Naive Bayes Classifier")
+#print_metrics(gnb_report)
 
-print("Bernoulli Naive Bayes Classifier - Obama")
-print_values(bnb_precisionlist0, bnb_precisionlist1, bnb_precisionlist_1, bnb_recalllist0, bnb_recalllist1, bnb_recalllist_1, bnb_f1scorelist0, bnb_f1scorelist1, bnb_f1scorelist_1, bnb_accuracylist)
+print("\nBernoulli Naive Bayes Classifier")
+print_metrics(bnb_report)
 
-print("K Nearest Neighbors Classifier - Obama")
-print_values(knn_precisionlist0, knn_precisionlist1, knn_precisionlist_1, knn_recalllist0, knn_recalllist1, knn_recalllist_1, knn_f1scorelist0, knn_f1scorelist1, knn_f1scorelist_1, knn_accuracylist)
+print("\nK Nearest Neighbors Classifier")
+print_metrics(knn_report)
 
-print("Decision Trees Classifier - Obama")
-print_values(dt_precisionlist0, dt_precisionlist1, dt_precisionlist_1, dt_recalllist0, dt_recalllist1, dt_recalllist_1, dt_f1scorelist0, dt_f1scorelist1, dt_f1scorelist_1, dt_accuracylist)
+print("\nDecision Trees Classifier")
+print_metrics(dt_report)
 
-print("AdaBoost Classifier - Obama")
-print_values(ab_precisionlist0, ab_precisionlist1, ab_precisionlist_1, ab_recalllist0, ab_recalllist1, ab_recalllist_1, ab_f1scorelist0, ab_f1scorelist1, ab_f1scorelist_1, ab_accuracylist)
+print("\nAdaBoost Classifier")
+print_metrics(ab_report)
 
-print("Random Forest Classifier - Obama")
-print_values(rf_precisionlist0, rf_precisionlist1, rf_precisionlist_1, rf_recalllist0, rf_recalllist1, rf_recalllist_1, rf_f1scorelist0, rf_f1scorelist1, rf_f1scorelist_1, rf_accuracylist)
+print("\nRandom Forest Classifier")
+print_metrics(rf_report)
+
+print("\nSupport Vector Machines")
+print_metrics(linear_svm_report)
+
+print("\nRBF Kernel SVM")
+print_metrics(rbf_svm_report)
+
+print("\nPolynomial Kernel SVM")
+print_metrics(poly_svm_report)

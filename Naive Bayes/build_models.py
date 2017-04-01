@@ -4,7 +4,7 @@ Created on Fri Mar 17 23:32:10 2017
 
 @author: Aditi
 """
-from Calculate_metrics import Calculate_metrics
+from CalculateMetrics import CalculateMetrics
 from preprocess import Preprocess
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -98,7 +98,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Multinomial Obama Model"""
-analysis=Calculate_metrics()
+analysis=CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = CountVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -110,7 +110,7 @@ f.close()
 #test_tweets, test_tweetlist, test_labels = analysis.read_file("Obama_test_data_cleaned.txt")
 
 """Multinomial Romney Model"""
-analysis=Calculate_metrics()
+analysis=CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = CountVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -120,7 +120,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """cosine Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -130,7 +130,7 @@ pickle.dump(tfidf_matrix,f)
 f.close()
 
 """cosine Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -140,7 +140,7 @@ pickle.dump(tfidf_matrix,f)
 f.close()
 
 """Adaboost Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -150,7 +150,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Adaboost Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -160,7 +160,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Bernouli Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -170,7 +170,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Bernouli Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -180,7 +180,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Desicion tree Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -190,7 +190,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Decision tree Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -201,7 +201,7 @@ f.close()
 
 
 """Gaussian NB Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -211,7 +211,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Gaussian NB Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -221,7 +221,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """KNN Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -231,7 +231,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """KNN Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -242,7 +242,7 @@ f.close()
 
 
 """Random Forests Obama Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Obama_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
@@ -252,7 +252,7 @@ pickle.dump(classifier,f)
 f.close()
 
 """Random Forests Romney Model"""
-analysis= Calculate_metrics()
+analysis= CalculateMetrics()
 tweets, tweetlist, labels = analysis.read_file("Romney_data_cleaned.txt")
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)

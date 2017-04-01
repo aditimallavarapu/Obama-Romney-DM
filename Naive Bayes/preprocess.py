@@ -36,12 +36,12 @@ class Preprocess:
         
         obama_file = open(obama, 'wb')
         for rownum in xrange(3,x1.nrows):
-            obama_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+            obama_file.write(u'\t'.join([re.sub(r'\s+', r' ', i) if isinstance(i, basestring) else str(int(i)) for i in x1.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
         obama_file.close()
         
         romney_file = open(romney, 'wb')
         for rownum in xrange(3,x2.nrows):
-            romney_file.write(u'\t'.join([i if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
+            romney_file.write(u'\t'.join([re.sub(r'\s+', r' ', i) if isinstance(i, basestring) else str(int(i)) for i in x2.row_values(rownum, 3, 5)]).encode('utf-8').strip()+ "\t\n")
         romney_file.close()
         
     def clean_text_files(self,romney_write,romney_read,obama_write,obama_read):
