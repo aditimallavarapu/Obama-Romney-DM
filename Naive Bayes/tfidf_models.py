@@ -18,6 +18,30 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn import svm
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+ 
+def draw_bar_plot(accuracy_list, fscore_list):
+    objects = ('MNB', 'BNB', 'KNN', 'DT', 'AB', 'RF', 'SVM', 'RBF', 'POLY')
+    y_pos = np.arange(len(objects))
+    bar_width = 0.35
+     
+    plt.bar(y_pos, accuracy_list, bar_width,
+            alpha=0.5,
+            color='b',
+            label='Accuracy')
+    plt.bar(y_pos + bar_width, fscore_list, bar_width, 
+            alpha=0.5, 
+            color='r', 
+            label='FScore')
+    plt.xticks(y_pos + bar_width, objects)
+    plt.xlabel('Models')
+    plt.ylabel('Values')
+    plt.title('Metrics')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
 def evaluation_metrics(clasification_report_list):
     precision_list = []
@@ -33,13 +57,15 @@ def evaluation_metrics(clasification_report_list):
     
 def print_metrics(clasification_report_list, accuracy_score_list):
     average_precision, average_recall, average_fscore = evaluation_metrics(clasification_report_list)
+    overall_accuracy = float(sum(accuracy_score_list))/len(accuracy_score_list)
     print("Average Precision: ", average_precision)
     print("Average Recall: ", average_recall)
     print("Average Fscore: ", average_fscore)
-    print("Overall Accuracy: ", float(sum(accuracy_score_list))/len(accuracy_score_list))
+    print("Overall Accuracy: ", overall_accuracy)
+    return average_precision, average_recall, average_fscore, overall_accuracy
 
 calculate_metrics = CalculateMetrics()
-tweets, tweetlist, labels = calculate_metrics.read_file("Obama_data_cleaned.txt")
+tweets, tweetlist, labels = calculate_metrics.read_file("Romney_data_cleaned.txt")
 
 number_of_folds = 10
 subset_size = len(tweetlist)/number_of_folds
@@ -63,6 +89,10 @@ ab_accuracy_list = []
 linear_svm_accuracy_list = []
 rbf_svm_accuracy_list = []
 poly_svm_accuracy_list = []
+precision_list = []
+recall_list = []
+fscore_list = []
+accuracy_list = []
 
 
 for i in range(number_of_folds):
@@ -129,31 +159,73 @@ for i in range(number_of_folds):
     poly_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
     
 print("\nMultinomial Naive Bayes Classifier")
-print_metrics(mnb_report, mnb_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(mnb_report, mnb_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 #print("\nGaussian Naive Bayes Classifier")
-#print_metrics(gnb_report, gnb_accuracy_list)
+#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(gnb_report, gnb_accuracy_list)
+#precision_list.append(average_precision)
+#recall_list.append(average_recall)
+#fscore_list.append(average_fscore)
+#accuracy_list.append(overall_accuracy)
 
 print("\nBernoulli Naive Bayes Classifier")
-print_metrics(bnb_report, bnb_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(bnb_report, bnb_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nK Nearest Neighbors Classifier")
-print_metrics(knn_report, knn_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(knn_report, knn_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nDecision Trees Classifier")
-print_metrics(dt_report, dt_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(dt_report, dt_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nAdaBoost Classifier")
-print_metrics(ab_report, ab_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(ab_report, ab_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nRandom Forest Classifier")
-print_metrics(rf_report, rf_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rf_report, rf_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nSupport Vector Machines")
-print_metrics(linear_svm_report, linear_svm_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(linear_svm_report, linear_svm_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nRBF Kernel SVM")
-print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nPolynomial Kernel SVM")
-print_metrics(poly_svm_report, poly_svm_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(poly_svm_report, poly_svm_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+draw_bar_plot(accuracy_list, fscore_list)
