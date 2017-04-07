@@ -38,7 +38,8 @@ class Naive_Bayes:
     
     def get_word_features(self, wordlist):
         wordlist = nltk.FreqDist(wordlist)
-        hapaxes = wordlist.hapaxes()           
+        hapaxes = wordlist.hapaxes()        
+        print len(hapaxes)
         features_final= [word for word in wordlist if word not in hapaxes]
         features_short = features_final[0:10000]
         return features_short

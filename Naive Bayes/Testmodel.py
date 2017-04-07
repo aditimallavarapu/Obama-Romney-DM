@@ -6,7 +6,7 @@ Created on Fri Mar 17 22:58:40 2017
 """
 import nltk
 import pickle
-from Trainmodel import TwitterSentimentAnalysis
+from Trainmodel import Naive_Bayes
 from preprocess import Preprocess
 
 pre= Preprocess()
@@ -15,7 +15,7 @@ print("Text file saved")
 pre.clean_text_files('test_romney_cleaned.txt','test_romney.txt','test_obama_cleaned.txt','test_obama.txt')
 
 """Unigram Obama Model"""
-analysis = TwitterSentimentAnalysis("test_obama_cleaned.txt",1)
+analysis = Naive_Bayes("test_obama_cleaned.txt",1)
 test_set = nltk.classify.apply_features(analysis.extract_features, analysis.tweets)
 print("Starting... Unigram Obama")
 f = open('unigram_Obama_nb_classifier.pickle', 'rb')
@@ -70,7 +70,7 @@ print('F1Score ' , f1score_class2)"""
 print('Overall Test Accuracy ', accuracy)
 
 """Bigram Obama Model"""
-analysis = TwitterSentimentAnalysis("test_obama_cleaned.txt",2)
+analysis = Naive_Bayes("test_obama_cleaned.txt",2)
 test_set = nltk.classify.apply_features(analysis.extract_features, analysis.tweets)
 print("Starting... Bigram Obama")
 f = open('Bigram_Obama_nb_classifier.pickle', 'rb')
@@ -412,3 +412,5 @@ print('Precision ', precision_class_negative)
 print('Recall ' , recall_class_negative)
 print('F1Score ' , f1score_class_negative)
 print('Overall Test Accuracy ', accuracy)
+
+
