@@ -10,7 +10,8 @@ import re
 import string
 import xlrd
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
+#from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 
 
 
@@ -24,8 +25,11 @@ class Preprocess:
         cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
         cleantext = cleantext.translate(None, string.digits)
-        stemmer = PorterStemmer()
-        cleantextlist = [stemmer.stem(i) for i in cleantext.lower().split()]      #stem the word  
+#        stemmer = PorterStemmer()
+#        cleantextlist = [stemmer.stem(i) for i in cleantext.lower().split()]      #stem the word  
+#        cleantext = ' '.join(cleantextlist)
+        lemmatizer = WordNetLemmatizer()
+        cleantextlist = [lemmatizer.lemmatize(i) for i in cleantext.lower().split()]
         cleantext = ' '.join(cleantextlist)
         stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
         cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
