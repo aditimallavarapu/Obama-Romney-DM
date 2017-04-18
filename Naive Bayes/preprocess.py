@@ -32,7 +32,24 @@ class Preprocess:
         cleantext = ' '.join(cleantextlist)
         return cleantext
         
-
+    def remove_2(self,filename):
+        #file_read = open(filename,"r")
+        filename_temp = ''.join([filename.strip(".txt"),"temp"])
+        filename_temp=''.join([filename_temp,".txt"])
+       # file_write = open(filename_temp,"w")
+        with open(filename, "r") as file_read,open(filename_temp,"w") as file_write:
+            for line in file_read.readlines():
+                cols=line.split("\t")
+               # print cols[1]
+                if(cols[1].strip()!="2"):
+                    file_write.write(line)
+                    #file_write.write("\n")
+           # file_read.close()
+            #file_write.close()
+        os.remove(filename)        
+        os.rename(filename_temp,filename)
+        
+        
     def xls_to_txt(self, filename,obama,romney):
         x =  xlrd.open_workbook(filename)#, encoding_override = "utf-8")
         x1 = x.sheet_by_index(0)        

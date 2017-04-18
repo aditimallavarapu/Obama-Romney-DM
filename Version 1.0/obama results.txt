@@ -1,0 +1,71 @@
+Naive Bayes Unigram
+('Average Precision: ', 0.5800000000000001)
+('Average Recall: ', 0.5770000000000001)
+('Average Fscore: ', 0.575)
+('Overall Accuracy: ', 0.5776991150442478)
+
+Naive Bayes Bigram
+('Average Precision: ', 0.565)
+('Average Recall: ', 0.5589999999999999)
+('Average Fscore: ', 0.5589999999999999)
+('Overall Accuracy: ', 0.5585103244837758)
+
+Naive Bayes Trigram
+('Average Precision: ', 0.5450000000000002)
+('Average Recall: ', 0.4720000000000001)
+('Average Fscore: ', 0.4450000000000001)
+('Overall Accuracy: ', 0.4717198922662562)
+
+Multinomial Naive Bayes Classifier
+('Average Precision: ', 0.608)
+('Average Recall: ', 0.5640000000000001)
+('Average Fscore: ', 0.5700000000000001)
+('Overall Accuracy: ', 0.5623008849557521)
+
+Bernoulli Naive Bayes Classifier
+('Average Precision: ', 0.5980000000000001)
+('Average Recall: ', 0.561)
+('Average Fscore: ', 0.572)
+('Overall Accuracy: ', 0.5615929203539822)
+
+K Nearest Neighbors Classifier
+('Average Precision: ', 0.506)
+('Average Recall: ', 0.462)
+('Average Fscore: ', 0.47000000000000003)
+('Overall Accuracy: ', 0.4610619469026549)
+
+Decision Trees Classifier
+('Average Precision: ', 0.5169999999999999)
+('Average Recall: ', 0.48)
+('Average Fscore: ', 0.48999999999999994)
+('Overall Accuracy: ', 0.4808849557522124)
+
+AdaBoost Classifier
+('Average Precision: ', 0.549)
+('Average Recall: ', 0.495)
+('Average Fscore: ', 0.503)
+('Overall Accuracy: ', 0.49752212389380535)
+
+Random Forest Classifier
+('Average Precision: ', 0.575)
+('Average Recall: ', 0.535)
+('Average Fscore: ', 0.5429999999999999)
+('Overall Accuracy: ', 0.5346902654867256)
+
+Support Vector Machines
+('Average Precision: ', 0.6179999999999999)
+('Average Recall: ', 0.5850000000000001)
+('Average Fscore: ', 0.588)
+('Overall Accuracy: ', 0.5856637168141592)
+
+RBF Kernel SVM
+('Average Precision: ', 0.6199999999999999)
+('Average Recall: ', 0.5810000000000001)
+('Average Fscore: ', 0.5890000000000001)
+('Overall Accuracy: ', 0.5812389380530972)
+
+Polynomial Kernel SVM
+('Average Precision: ', 0.072)
+('Average Recall: ', 0.25999999999999995)
+('Average Fscore: ', 0.11000000000000001)
+('Overall Accuracy: ', 0.25964601769911505)

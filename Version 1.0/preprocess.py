@@ -24,9 +24,9 @@ class Preprocess:
         cleantext= re.sub(r'https?:\/\/.*[\r\n]*', '', cleantext)       #remove links
         cleantext = cleantext.translate(string.maketrans("",""), string.punctuation)
         cleantext = cleantext.translate(None, string.digits)
-        stemmer = PorterStemmer()
-        cleantextlist = [stemmer.stem(i) for i in cleantext.lower().split()]      #stem the word  
-        cleantext = ' '.join(cleantextlist)
+#        stemmer = PorterStemmer()
+#        cleantextlist = [stemmer.stem(i) for i in cleantext.lower().split()]      #stem the word  
+#        cleantext = ' '.join(cleantextlist)
         stop = set(stopwords.words('english')) - set(('and', 'or', 'not'))
         cleantextlist = [i for i in cleantext.lower().split() if i not in stop]      #remove stopwords except few exceptions  
         cleantext = ' '.join(cleantextlist)

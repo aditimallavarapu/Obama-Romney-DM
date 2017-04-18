@@ -25,7 +25,8 @@ script_dir = os.path.dirname("") #<-- absolute dir the script is in
 process.xls_to_txt('training-Obama-Romney-tweets-Recoded.xlsx','Obama_data.txt','Romney_data.txt')
 print("Text file saved")           
 process.clean_text_files('Romney_data_cleaned.txt','Romney_data.txt','Obama_data_cleaned.txt','Obama_data.txt')
-process.remove_2("Romney_data_cleaned.txt")
+process.remove_2("Obama_data_cleaned.txt")
+process.remove_2("ROmney_data_cleaned.txt")
 #analysis = Naive_Bayes("Obama_data_cleaned.txt",1)
 
 #==============================================================================
