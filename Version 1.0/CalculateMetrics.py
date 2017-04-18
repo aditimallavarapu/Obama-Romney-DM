@@ -8,6 +8,7 @@ Created on Thu Mar 30 22:03:48 2017
 import os
 from random import shuffle
 from preprocess import Preprocess
+import re
 
 class CalculateMetrics:
     def calculate_metrics(self,classifier, test_set, class_label):
@@ -79,7 +80,7 @@ class CalculateMetrics:
             words_filtered =[e.lower() for e in cols[0].split() if len(e)>2]      #initialise the frequency counts
             tweets.append((words_filtered,cols[1]))
             tweetlist.append(cols[0])
-            labels.append(cols[1])
+            labels.append(re.sub(r'\s+', r'',cols[1]))
         f.close()
         shuffle(tweets)
         return tweets, tweetlist, labels
