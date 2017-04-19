@@ -55,11 +55,11 @@ def evaluation_metrics(clasification_report_list):
     negative_precision_list =[]
     for clasification_report in clasification_report_list:
         lines = clasification_report.split('\n')
-        positive = lines[2].split()
+        positive = lines[4].split()
         positive_precision_list.append(float(positive[1]))
         positive_recall_list.append(float(positive[2]))
         positive_F1Score_list.append(float(positive[3]))
-        negative = lines[4].split()
+        negative = lines[2].split()
         negative_precision_list.append(float(negative[1]))
         negative_recall_list.append(float(negative[2]))
         negative_F1Score_list.append(float(negative[3]))

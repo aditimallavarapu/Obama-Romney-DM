@@ -55,11 +55,11 @@ def evaluation_metrics(clasification_report_list):
     negative_precision_list =[]
     for clasification_report in clasification_report_list:
         lines = clasification_report.split('\n')
-        positive = lines[2].split()
+        positive = lines[4].split()
         positive_precision_list.append(float(positive[1]))
         positive_recall_list.append(float(positive[2]))
         positive_F1Score_list.append(float(positive[3]))
-        negative = lines[4].split()
+        negative = lines[2].split()
         negative_precision_list.append(float(negative[1]))
         negative_recall_list.append(float(negative[2]))
         negative_F1Score_list.append(float(negative[3]))
@@ -135,27 +135,27 @@ fscore_list = []
 accuracy_list = []
 
 
-#for gram in range(1,4):
-#    nb = Naive_Bayes("Romney_data_cleaned.txt",gram)
-#    training_set = nltk.classify.apply_features(nb.extract_features, nb.tweets)
-#    
-#    for i in range(number_of_folds):
-#        test_data_labels=[]
-#        test_set = training_set[i*subset_size:][:subset_size]
-#        for (text,label) in test_set:
-#            test_data_labels.append(label)
-#        train_set = training_set[:i*subset_size]+training_set[(i+1)*subset_size:]
-#        classifier = nltk.NaiveBayesClassifier.train(train_set)
-#        results = classifier.classify_many([fs for (fs, l) in test_set])
-#        if gram==1:
-#            nb_report_uni.append(classification_report(test_data_labels, results))
-#            nb_accuracy_list_uni.append(accuracy_score(test_data_labels, results))        
-#        elif gram==2:
-#            nb_report_bi.append(classification_report(test_data_labels, results))
-#            nb_accuracy_list_bi.append(accuracy_score(test_data_labels, results))
-#        elif gram==3:
-#             nb_report_tri.append(classification_report(test_data_labels, results))
-#             nb_accuracy_list_tri.append(accuracy_score(test_data_labels, results))
+for gram in range(1,4):
+    nb = Naive_Bayes("Romney_data_cleaned.txt",gram)
+    training_set = nltk.classify.apply_features(nb.extract_features, nb.tweets)
+    
+    for i in range(number_of_folds):
+        test_data_labels=[]
+        test_set = training_set[i*subset_size:][:subset_size]
+        for (text,label) in test_set:
+            test_data_labels.append(label)
+        train_set = training_set[:i*subset_size]+training_set[(i+1)*subset_size:]
+        classifier = nltk.NaiveBayesClassifier.train(train_set)
+        results = classifier.classify_many([fs for (fs, l) in test_set])
+        if gram==1:
+            nb_report_uni.append(classification_report(test_data_labels, results))
+            nb_accuracy_list_uni.append(accuracy_score(test_data_labels, results))        
+        elif gram==2:
+            nb_report_bi.append(classification_report(test_data_labels, results))
+            nb_accuracy_list_bi.append(accuracy_score(test_data_labels, results))
+        elif gram==3:
+             nb_report_tri.append(classification_report(test_data_labels, results))
+             nb_accuracy_list_tri.append(accuracy_score(test_data_labels, results))
 
 for i in range(number_of_folds):
      test_data = tweetlist[i*subset_size:][:subset_size]
@@ -165,103 +165,103 @@ for i in range(number_of_folds):
  
       
  
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=6,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=False)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     mnb_classifier = MultinomialNB(alpha=0).fit(tfidf_matrix, train_data_labels)
-#     predictions = mnb_classifier.predict(test_tfidf_matrix)
-#     mnb_report.append(classification_report(test_data_labels, predictions))
-#     mnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
-# 
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=7,
-#                              max_df = 0.9,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     bnb_classifier = BernoulliNB(alpha=1.06).fit(tfidf_matrix, train_data_labels)
-#     predictions = bnb_classifier.predict(test_tfidf_matrix)
-#     bnb_report.append(classification_report(test_data_labels, predictions))
-#     bnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,1), min_df=31,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     knn_classifier = KNeighborsClassifier(n_neighbors=9).fit(tfidf_matrix, train_data_labels)
-#     predictions = knn_classifier.predict(test_tfidf_matrix)
-#     knn_report.append(classification_report(test_data_labels, predictions))
-#     knn_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,2), min_df=15,
-#                              max_df = 0.9,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     dt_classifier = tree.DecisionTreeClassifier().fit(tfidf_matrix, train_data_labels)
-#     predictions = dt_classifier.predict(test_tfidf_matrix)
-#     dt_report.append(classification_report(test_data_labels, predictions))
-#     dt_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=15,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     ab_classifier = AdaBoostClassifier(n_estimators=57).fit(tfidf_matrix, train_data_labels)
-#     predictions = ab_classifier.predict(test_tfidf_matrix)
-#     ab_report.append(classification_report(test_data_labels, predictions))
-#     ab_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#          
-#     rf_classifier = RandomForestClassifier(n_estimators=35).fit(tfidf_matrix, train_data_labels)
-#     predictions = rf_classifier.predict(test_tfidf_matrix)
-#     rf_report.append(classification_report(test_data_labels, predictions))
-#     rf_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=0,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     svm_classifier = svm.LinearSVC(C=0.35).fit(tfidf_matrix, train_data_labels)
-#     predictions = svm_classifier.predict(test_tfidf_matrix)
-#     linear_svm_report.append(classification_report(test_data_labels, predictions))
-#     linear_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-##    
-#     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
-#                              max_df = 1.0,
-#                              sublinear_tf=True,
-#                              use_idf=True)
-#     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
-#     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
-#     
-#     rbf_classifier = svm.SVC(kernel = 'rbf',gamma=0.75,decision_function_shape='ovo').fit(tfidf_matrix, train_data_labels)
-#     predictions = rbf_classifier.predict(test_tfidf_matrix)
-#     rbf_svm_report.append(classification_report(test_data_labels, predictions))
-#     rbf_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#     
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=6,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=False)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     mnb_classifier = MultinomialNB(alpha=0).fit(tfidf_matrix, train_data_labels)
+     predictions = mnb_classifier.predict(test_tfidf_matrix)
+     mnb_report.append(classification_report(test_data_labels, predictions))
+     mnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
+ 
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=7,
+                              max_df = 0.9,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     bnb_classifier = BernoulliNB(alpha=1.06).fit(tfidf_matrix, train_data_labels)
+     predictions = bnb_classifier.predict(test_tfidf_matrix)
+     bnb_report.append(classification_report(test_data_labels, predictions))
+     bnb_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,1), min_df=31,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     knn_classifier = KNeighborsClassifier(n_neighbors=9).fit(tfidf_matrix, train_data_labels)
+     predictions = knn_classifier.predict(test_tfidf_matrix)
+     knn_report.append(classification_report(test_data_labels, predictions))
+     knn_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,2), min_df=15,
+                              max_df = 0.9,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     dt_classifier = tree.DecisionTreeClassifier().fit(tfidf_matrix, train_data_labels)
+     predictions = dt_classifier.predict(test_tfidf_matrix)
+     dt_report.append(classification_report(test_data_labels, predictions))
+     dt_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=15,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     ab_classifier = AdaBoostClassifier(n_estimators=57).fit(tfidf_matrix, train_data_labels)
+     predictions = ab_classifier.predict(test_tfidf_matrix)
+     ab_report.append(classification_report(test_data_labels, predictions))
+     ab_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+          
+     rf_classifier = RandomForestClassifier(n_estimators=35).fit(tfidf_matrix, train_data_labels)
+     predictions = rf_classifier.predict(test_tfidf_matrix)
+     rf_report.append(classification_report(test_data_labels, predictions))
+     rf_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=0,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     svm_classifier = svm.LinearSVC(C=0.35).fit(tfidf_matrix, train_data_labels)
+     predictions = svm_classifier.predict(test_tfidf_matrix)
+     linear_svm_report.append(classification_report(test_data_labels, predictions))
+     linear_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+#    
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
+                              max_df = 1.0,
+                              sublinear_tf=True,
+                              use_idf=True)
+     tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
+     test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
+     
+     rbf_classifier = svm.SVC(kernel = 'rbf',gamma=0.75,decision_function_shape='ovo').fit(tfidf_matrix, train_data_labels)
+     predictions = rbf_classifier.predict(test_tfidf_matrix)
+     rbf_svm_report.append(classification_report(test_data_labels, predictions))
+     rbf_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
+     
      tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,2), min_df=0,
                               max_df = 1.0,
                               sublinear_tf=True,
@@ -276,82 +276,82 @@ for i in range(number_of_folds):
      print("Fold " + str(i) + " complete")
  
 
-#print("\nNaive Bayes Unigram")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_uni, nb_accuracy_list_uni)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nNaive Bayes Bigram")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_bi, nb_accuracy_list_bi)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nNaive Bayes Trigram")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_tri, nb_accuracy_list_tri)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nMultinomial Naive Bayes Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(mnb_report, mnb_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nBernoulli Naive Bayes Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(bnb_report, bnb_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nK Nearest Neighbors Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(knn_report, knn_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nDecision Trees Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(dt_report, dt_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nAdaBoost Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(ab_report, ab_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nRandom Forest Classifier")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rf_report, rf_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nSupport Vector Machines")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(linear_svm_report, linear_svm_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
-#
-#print("\nRBF Kernel SVM")
-#average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
-#precision_list.append(average_precision)
-#recall_list.append(average_recall)
-#fscore_list.append(average_fscore)
-#accuracy_list.append(overall_accuracy)
+print("\nNaive Bayes Unigram")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_uni, nb_accuracy_list_uni)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nNaive Bayes Bigram")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_bi, nb_accuracy_list_bi)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nNaive Bayes Trigram")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_tri, nb_accuracy_list_tri)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nMultinomial Naive Bayes Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(mnb_report, mnb_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nBernoulli Naive Bayes Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(bnb_report, bnb_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nK Nearest Neighbors Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(knn_report, knn_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nDecision Trees Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(dt_report, dt_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nAdaBoost Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(ab_report, ab_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nRandom Forest Classifier")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rf_report, rf_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nSupport Vector Machines")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(linear_svm_report, linear_svm_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
+
+print("\nRBF Kernel SVM")
+average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
+precision_list.append(average_precision)
+recall_list.append(average_recall)
+fscore_list.append(average_fscore)
+accuracy_list.append(overall_accuracy)
 
 print("\nPolynomial Kernel SVM")
 average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(poly_svm_report, poly_svm_accuracy_list)
@@ -360,4 +360,4 @@ recall_list.append(average_recall)
 fscore_list.append(average_fscore)
 accuracy_list.append(overall_accuracy)
 
-#draw_bar_plot(accuracy_list, fscore_list)
+draw_bar_plot(accuracy_list, fscore_list)
