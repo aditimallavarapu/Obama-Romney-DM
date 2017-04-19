@@ -7,9 +7,7 @@ Created on Tue Mar 21 20:42:46 2017
 
 from CalculateMetrics import CalculateMetrics
 from sklearn.feature_extraction.text import TfidfVectorizer
-#from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-#from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
@@ -49,23 +47,56 @@ def evaluation_metrics(clasification_report_list):
     precision_list = []
     recall_list = []
     fscore_list = []
+    positive_recall_list =[]
+    positive_F1Score_list =[]    
+    positive_precision_list =[]
+    negative_recall_list =[]
+    negative_F1Score_list =[]    
+    negative_precision_list =[]
     for clasification_report in clasification_report_list:
-        #print clasification_report
         lines = clasification_report.split('\n')
-        average_metrics = lines[9].split()
+        positive = lines[2].split()
+        positive_precision_list.append(float(positive[1]))
+        positive_recall_list.append(float(positive[2]))
+        positive_F1Score_list.append(float(positive[3]))
+        negative = lines[4].split()
+        negative_precision_list.append(float(negative[1]))
+        negative_recall_list.append(float(negative[2]))
+        negative_F1Score_list.append(float(negative[3]))
+        average_metrics = lines[6].split()
         precision_list.append(float(average_metrics[3]))
         recall_list.append(float(average_metrics[4]))
         fscore_list.append(float(average_metrics[5]))
-    return float(sum(precision_list))/len(precision_list), float(sum(recall_list))/len(recall_list), float(sum(fscore_list))/len(fscore_list)
-    
+    return (float(sum(precision_list))/len(precision_list), 
+            float(sum(recall_list))/len(recall_list),
+            float(sum(fscore_list))/len(fscore_list), 
+            float(sum(positive_precision_list))/len(positive_precision_list),
+            float(sum(positive_recall_list))/len(positive_recall_list),
+            float(sum(positive_F1Score_list))/len(positive_F1Score_list),
+            float(sum(negative_precision_list))/len(negative_precision_list),
+            float(sum(negative_recall_list))/len(negative_recall_list),
+            float(sum(negative_F1Score_list))/len(negative_F1Score_list)    )
+                    
+   
+        
 def print_metrics(clasification_report_list, accuracy_score_list):
-    average_precision, average_recall, average_fscore = evaluation_metrics(clasification_report_list)
+    average_precision, average_recall, average_fscore, average_positive_precision, average_positive_recall, average_positive_F1Score, average_negative_precision, average_negative_recall, average_negative_F1Score  = evaluation_metrics(clasification_report_list)
     overall_accuracy = float(sum(accuracy_score_list))/len(accuracy_score_list)
     print("Average Precision: ", average_precision)
     print("Average Recall: ", average_recall)
     print("Average Fscore: ", average_fscore)
-    print("Overall Accuracy: ", overall_accuracy)
-    return average_precision, average_recall, average_fscore, overall_accuracy
+    print("Overall accuracy: ",overall_accuracy)
+    print("Positive Precision: ", average_positive_precision)
+    print("Positive Recall: ", average_positive_recall)
+    print("Positive FScore: ", average_positive_F1Score)
+    print("Negative Precision: ", average_negative_precision)    
+    print("Negative Recall: ", average_negative_recall)
+    print("Negative FScore: ", average_negative_F1Score)
+    return (average_precision, average_recall, average_fscore, 
+            overall_accuracy)
+#            ,average_positive_precision,average_positive_recall,
+#            average_positive_F1Score,average_negative_precision,average_positive_recall,
+#            average_negative_F1Score)
 
 calculate_metrics = CalculateMetrics()
 tweets, tweetlist, labels = calculate_metrics.read_file("Obama_data_cleaned.txt")
@@ -82,7 +113,6 @@ ab_report = []
 nb_report_uni =[]
 nb_report_bi =[]
 nb_report_tri =[]
-nb_report_quad =[]
 linear_svm_report = []
 rbf_svm_report = []
 poly_svm_report = []
@@ -96,7 +126,6 @@ ab_accuracy_list = []
 nb_accuracy_list_uni=[]
 nb_accuracy_list_bi=[]
 nb_accuracy_list_tri=[]
-nb_accuracy_list_quad=[]
 linear_svm_accuracy_list = []
 rbf_svm_accuracy_list = []
 poly_svm_accuracy_list = []
@@ -104,7 +133,12 @@ precision_list = []
 recall_list = []
 fscore_list = []
 accuracy_list = []
-
+positive_precision_list = []
+negative_precision_list= []
+positive_recall_list =[]
+negative_recall_list= []
+positive_F1Score_list =[]
+negative_F1Score_list =[]
 for gram in range(1,4):
     nb = Naive_Bayes("Obama_data_cleaned.txt",gram)
     training_set = nltk.classify.apply_features(nb.extract_features, nb.tweets)
@@ -117,9 +151,6 @@ for gram in range(1,4):
         train_set = training_set[:i*subset_size]+training_set[(i+1)*subset_size:]
         classifier = nltk.NaiveBayesClassifier.train(train_set)
         results = classifier.classify_many([fs for (fs, l) in test_set])
-#        print test_data_labels, results
-#        print len(results)
-#        print len(test_set)
         if gram==1:
             nb_report_uni.append(classification_report(test_data_labels, results))
             nb_accuracy_list_uni.append(accuracy_score(test_data_labels, results))        
@@ -220,7 +251,7 @@ for i in range(number_of_folds):
      predictions = svm_classifier.predict(test_tfidf_matrix)
      linear_svm_report.append(classification_report(test_data_labels, predictions))
      linear_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
-#    
+    
      tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
                               max_df = 1.0,
                               sublinear_tf=True,
@@ -228,19 +259,19 @@ for i in range(number_of_folds):
      tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
      test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
      
-     rbf_classifier = svm.SVC(kernel = 'rbf',gamma=0.81).fit(tfidf_matrix, train_data_labels)
+     rbf_classifier = svm.SVC(kernel = 'rbf',gamma=0.81,decision_function_shape='ovo').fit(tfidf_matrix, train_data_labels)
      predictions = rbf_classifier.predict(test_tfidf_matrix)
      rbf_svm_report.append(classification_report(test_data_labels, predictions))
      rbf_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
      
-     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,2), min_df=0,
+     tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=5,
                               max_df = 1.0,
                               sublinear_tf=True,
                               use_idf=True)
      tfidf_matrix = tfidf_vectorizer.fit_transform(train_data)
      test_tfidf_matrix = tfidf_vectorizer.transform(test_data)
      
-     poly_classifier = svm.SVC(kernel = 'poly',degree=4).fit(tfidf_matrix, train_data_labels)
+     poly_classifier = svm.SVC(kernel = 'poly',degree=2,decision_function_shape='ovo').fit(tfidf_matrix, train_data_labels)
      predictions = poly_classifier.predict(test_tfidf_matrix)
      poly_svm_report.append(classification_report(test_data_labels, predictions))
      poly_svm_accuracy_list.append(accuracy_score(test_data_labels, predictions))
@@ -251,6 +282,7 @@ precision_list.append(average_precision)
 recall_list.append(average_recall)
 fscore_list.append(average_fscore)
 accuracy_list.append(overall_accuracy)
+
 
 print("\nNaive Bayes Bigram")
 average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_bi, nb_accuracy_list_bi)
@@ -267,11 +299,17 @@ fscore_list.append(average_fscore)
 accuracy_list.append(overall_accuracy)
 
 print("\nMultinomial Naive Bayes Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(mnb_report, mnb_accuracy_list)
+average_precision, average_recall, average_fscore, overall_accuracy  = print_metrics(mnb_report, mnb_accuracy_list)
 precision_list.append(average_precision)
 recall_list.append(average_recall)
 fscore_list.append(average_fscore)
 accuracy_list.append(overall_accuracy)
+#positive_precision_list.append(positive_precision)
+#negative_precision_list.append(negative_precision)
+#positive_recall_list.append(positive_recall)
+#positive_F1Score_list.append(positive_F1Score)
+#negative_recall_list.append(negative_recall)
+#negative_F1Score_list.append(negative_F1Score)
 
 print("\nBernoulli Naive Bayes Classifier")
 average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(bnb_report, bnb_accuracy_list)

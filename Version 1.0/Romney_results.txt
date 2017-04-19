@@ -1,0 +1,71 @@
+Naive Bayes Unigram
+('Average Precision: ', 0.55)
+('Average Recall: ', 0.564)
+('Average Fscore: ', 0.553)
+('Overall Accuracy: ', 0.5631849315068493)
+
+Naive Bayes Bigram
+('Average Precision: ', 0.522)
+('Average Recall: ', 0.5370000000000001)
+('Average Fscore: ', 0.5229999999999999)
+('Overall Accuracy: ', 0.5367744160835716)
+
+Naive Bayes Trigram
+('Average Precision: ', 0.5229999999999999)
+('Average Recall: ', 0.542)
+('Average Fscore: ', 0.4959999999999999)
+('Overall Accuracy: ', 0.542886893743058)
+
+Multinomial Naive Bayes Classifier
+('Average Precision: ', 0.5980000000000001)
+('Average Recall: ', 0.562)
+('Average Fscore: ', 0.536)
+('Overall Accuracy: ', 0.5611301369863014)
+
+Bernoulli Naive Bayes Classifier
+('Average Precision: ', 0.59)
+('Average Recall: ', 0.554)
+('Average Fscore: ', 0.553)
+('Overall Accuracy: ', 0.554109589041096)
+
+K Nearest Neighbors Classifier
+('Average Precision: ', 0.526)
+('Average Recall: ', 0.48900000000000005)
+('Average Fscore: ', 0.4880000000000001)
+('Overall Accuracy: ', 0.49058219178082185)
+
+Decision Trees Classifier
+('Average Precision: ', 0.534)
+('Average Recall: ', 0.495)
+('Average Fscore: ', 0.501)
+('Overall Accuracy: ', 0.49520547945205495)
+
+AdaBoost Classifier
+('Average Precision: ', 0.549)
+('Average Recall: ', 0.52)
+('Average Fscore: ', 0.472)
+('Overall Accuracy: ', 0.5217465753424657)
+
+Random Forest Classifier
+('Average Precision: ', 0.571)
+('Average Recall: ', 0.5439999999999999)
+('Average Fscore: ', 0.513)
+('Overall Accuracy: ', 0.5441780821917808)
+
+Support Vector Machines
+('Average Precision: ', 0.6090000000000001)
+('Average Recall: ', 0.5770000000000001)
+('Average Fscore: ', 0.5589999999999999)
+('Overall Accuracy: ', 0.5748287671232877)
+
+RBF Kernel SVM
+('Average Precision: ', 0.606)
+('Average Recall: ', 0.5640000000000001)
+('Average Fscore: ', 0.525)
+('Overall Accuracy: ', 0.5647260273972603)
+
+Polynomial Kernel SVM
+('Average Precision: ', 0.279)
+('Average Recall: ', 0.51)
+('Average Fscore: ', 0.35700000000000004)
+('Overall Accuracy: ', 0.510958904109589)
