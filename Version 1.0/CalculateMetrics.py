@@ -82,6 +82,6 @@ class CalculateMetrics:
             tweetlist.append(cols[0])
             labels.append(re.sub(r'\s+', r'',cols[1]))
         f.close()
-        shuffle(tweets)
+        #shuffle(tweets)
         return tweets, tweetlist, labels
         

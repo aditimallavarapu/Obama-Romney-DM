@@ -44,8 +44,8 @@ class Preprocess:
         with open(filename, "r") as file_read,open(filename_temp,"w") as file_write:
             for line in file_read.readlines():
                 cols=line.split("\t")
-                if(cols[1].strip()!="2"):
-                    file_write.write(line)
+                if(cols[1].strip()!="2" and cols[1].strip()!="ir"):
+                        file_write.write(line)
         os.remove(filename)        
         os.rename(filename_temp,filename)
         

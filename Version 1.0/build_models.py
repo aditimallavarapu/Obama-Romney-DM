@@ -18,6 +18,8 @@ import nltk
 import pickle
 import os
 from sklearn import svm
+from sklearn.externals import joblib
+from sklearn.pipeline import Pipeline
 
 """preprocess all training files"""
 process = Preprocess() 
@@ -143,9 +145,14 @@ tfidf_vectorizer = TfidfVectorizer(ngram_range = (1,3), min_df=0,
                              sublinear_tf=True,
                              use_idf=True)
 tfidf_matrix = tfidf_vectorizer.fit_transform(tweetlist)
-classifier = svm.LinearSVC(C=0.20).fit(tfidf_matrix, labels)
+#----------------------------------------------------
+classifier = svm.LinearSVC(C=0.20)
 f = open('LinearSVM_Obama_classifier.pickle', 'wb')
+vec_clf = Pipeline([('tfvec', tfidf_matrix), ('svm', classifier)])
+vec_clf.fit(tfidf_matrix, labels)
+_ = joblib.dump(vec_clf, 'linearL0_3gram_100K.pkl', compress=9)
 pickle.dump(classifier,f)
+#-------------------------------------------------------
 f.close()
 
 """Polynomial SVM Obama Model"""
