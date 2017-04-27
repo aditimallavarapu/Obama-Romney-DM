@@ -16,9 +16,9 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 def draw_bar_plot(accuracy_list, fscore_list):
-    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN', 'POLY')
+    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN')
     y_pos = np.arange(len(objects))
-    bar_width = 0.35
+    bar_width = 0.20
      
     plt.bar(y_pos, accuracy_list, bar_width,
             alpha=0.5,
@@ -94,10 +94,9 @@ def print_metrics(clasification_report_list, accuracy_score_list):
     print("Negative Recall: ", average_negative_recall)
     print("Negative FScore: ", average_negative_F1Score)
     return (average_precision, average_recall, average_fscore, 
-            overall_accuracy)
-#            ,average_positive_precision,average_positive_recall,
-#            average_positive_F1Score,average_negative_precision,average_positive_recall,
-#            average_negative_F1Score)
+            overall_accuracy,average_positive_precision,average_positive_recall,
+            average_positive_F1Score,average_negative_precision,average_positive_recall,
+            average_negative_F1Score)
             
             
 mnb_report = []
@@ -151,9 +150,9 @@ def write_to_file_nb(f,classifier,test_set,tweets):
         predict= classifier.classify(record)
         f.write("\n")
         f.write(str(tweet))
-        f.write("\t")
+        f.write(",")
         f.write(actual)
-        f.write("\t")
+        f.write(",")
         f.write(predict)
         predict_list.append(predict)
     f.close()    
@@ -161,15 +160,15 @@ def write_to_file_nb(f,classifier,test_set,tweets):
 
 def write_to_file_tfidf(f,classifier,tweets,labels):
     predictions= classifier.predict(tweets)
-    print predictions
+    
     predict_list=[]
     for (record,actual,predict) in zip(tweets, labels, predictions):
 #        predict= classifier.predict(record)
         f.write("\n")
         f.write(str(record))
-        f.write("\t")
+        f.write(",")
         f.write(actual)
-        f.write("\t")
+        f.write(",")
         f.write(predict)
         predict_list.append(predict)
     f.close()    
@@ -404,14 +403,14 @@ predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
 poly_svm_report.append(classification_report(labels, predict_list))
 poly_svm_accuracy_list.append(accuracy_score(labels, predict_list))        
 precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(poly_svm_report, poly_svm_accuracy_list)
-fscore_list.append(fscore)
-accuracy_list.append(overall_accuracy)
-positive_precision_list.append(positive_precision)
-negative_precision_list.append(negative_precision)
-positive_recall_list.append(positive_recall)
-negative_recall_list.append(negative_recall)
-positive_fscore_list.append(positive_fscore)
-negative_fscore_list.append(negative_fscore)
+#fscore_list.append(fscore)
+#accuracy_list.append(overall_accuracy)
+#positive_precision_list.append(positive_precision)
+#negative_precision_list.append(negative_precision)
+#positive_recall_list.append(positive_recall)
+#negative_recall_list.append(negative_recall)
+#positive_fscore_list.append(positive_fscore)
+#negative_fscore_list.append(negative_fscore)
 
 
 
