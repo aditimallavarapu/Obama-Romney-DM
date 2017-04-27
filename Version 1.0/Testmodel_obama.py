@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 def draw_bar_plot(accuracy_list, fscore_list):
-    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN', 'POLY')
+    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN')
     y_pos = np.arange(len(objects))
     bar_width = 0.20
      
@@ -393,23 +393,23 @@ negative_recall_list.append(negative_recall)
 positive_fscore_list.append(positive_fscore)
 negative_fscore_list.append(negative_fscore)
 
-"""Polynomial SVM Model"""
-tweets,tweet_list,labels = metrics.read_file("test_obama_cleaned.txt")
-print("Polynomial SVM Obama")
-classifier =joblib.load('Polynomial_SVM_Obama_classifier.pickle')
-f =open("Polynomial_SVM_obama.csv","wb")
-predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
-poly_svm_report.append(classification_report(labels, predict_list))
-poly_svm_accuracy_list.append(accuracy_score(labels, predict_list))        
-precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(poly_svm_report, poly_svm_accuracy_list)
-fscore_list.append(fscore)
-accuracy_list.append(overall_accuracy)
-positive_precision_list.append(positive_precision)
-negative_precision_list.append(negative_precision)
-positive_recall_list.append(positive_recall)
-negative_recall_list.append(negative_recall)
-positive_fscore_list.append(positive_fscore)
-negative_fscore_list.append(negative_fscore)
-
-
+#"""Polynomial SVM Model"""
+#tweets,tweet_list,labels = metrics.read_file("test_obama_cleaned.txt")
+#print("Polynomial SVM Obama")
+#classifier =joblib.load('Polynomial_SVM_Obama_classifier.pickle')
+#f =open("Polynomial_SVM_obama.csv","wb")
+#predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+#poly_svm_report.append(classification_report(labels, predict_list))
+#poly_svm_accuracy_list.append(accuracy_score(labels, predict_list))        
+#precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(poly_svm_report, poly_svm_accuracy_list)
+#fscore_list.append(fscore)
+#accuracy_list.append(overall_accuracy)
+#positive_precision_list.append(positive_precision)
+#negative_precision_list.append(negative_precision)
+#positive_recall_list.append(positive_recall)
+#negative_recall_list.append(negative_recall)
+#positive_fscore_list.append(positive_fscore)
+#negative_fscore_list.append(negative_fscore)
+#
+#
 draw_bar_plot(accuracy_list, fscore_list)
