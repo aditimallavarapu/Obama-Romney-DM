@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 def draw_bar_plot(accuracy_list, fscore_list):
-    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN', 'POLY')
+    objects = ('NB-Uni','NB-Bi','NB-tri','SVM','MNB', 'BNB', 'DT', 'AB', 'RF','RBF', 'KNN')
     y_pos = np.arange(len(objects))
     bar_width = 0.20
      
@@ -94,8 +94,12 @@ def print_metrics(clasification_report_list, accuracy_score_list):
     print("Negative Recall: ", average_negative_recall)
     print("Negative FScore: ", average_negative_F1Score)
     return (average_precision, average_recall, average_fscore, 
+<<<<<<< HEAD
             overall_accuracy
             ,average_positive_precision,average_positive_recall,
+=======
+            overall_accuracy,average_positive_precision,average_positive_recall,
+>>>>>>> origin/master
             average_positive_F1Score,average_negative_precision,average_positive_recall,
             average_negative_F1Score)
             
@@ -161,15 +165,19 @@ def write_to_file_nb(f,classifier,test_set,tweets):
 
 def write_to_file_tfidf(f,classifier,tweets,labels):
     predictions= classifier.predict(tweets)
+<<<<<<< HEAD
 #    print predictions
+=======
+    
+>>>>>>> origin/master
     predict_list=[]
     for (record,actual,predict) in zip(tweets, labels, predictions):
 #        predict= classifier.predict(record)
         f.write("\n")
         f.write(str(record))
-        f.write("\t")
+        f.write(",")
         f.write(actual)
-        f.write("\t")
+        f.write(",")
         f.write(predict)
         predict_list.append(predict)
     f.close()    
@@ -269,6 +277,7 @@ negative_fscore_list.append(negative_fscore)
 #positive_fscore_list.append(positive_fscore)
 #negative_fscore_list.append(negative_fscore)
  
+<<<<<<< HEAD
 #"""Multinomial NB Romney Model"""
 #tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
 #print("Multinomial NB Romney")
@@ -278,6 +287,143 @@ negative_fscore_list.append(negative_fscore)
 #mnb_report.append(classification_report(labels, predict_list))
 #mnb_accuracy_list.append(accuracy_score(labels, predict_list))        
 #precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(mnb_report, mnb_accuracy_list)
+=======
+"""Multinomial NB Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Multinomial NB Romney")
+classifier =joblib.load('Multinomial_Romney_classifier.pickle')
+f =open("MultinomialNB_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+mnb_report.append(classification_report(labels, predict_list))
+mnb_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(mnb_report, mnb_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+   
+"""Bernouli NB Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Bernouli NB Romney")
+classifier =joblib.load('Bernouli_Romney_classifier.pickle')
+f =open("BernouliNB_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+bnb_report.append(classification_report(labels, predict_list))
+bnb_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(bnb_report, bnb_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""Decision Tree Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Decision Tree Romney")
+classifier =joblib.load('Decision_tree_Romney_classifier.pickle')
+f =open("Decisiontree_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+dt_report.append(classification_report(labels, predict_list))
+dt_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(dt_report, dt_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""Adaboost Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Adaboost Romney")
+classifier =joblib.load('Adaboost_Romney_classifier.pickle')
+f =open("Adaboost_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+ab_report.append(classification_report(labels, predict_list))
+ab_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(ab_report, ab_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""Random Forests Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Random Forest Romney")
+classifier =joblib.load('Random_Forests_Romney_classifier.pickle')
+f =open("Random_Forests_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+rf_report.append(classification_report(labels, predict_list))
+rf_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(rf_report, rf_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""RBF SVM Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("RBF SVM Romney")
+classifier =joblib.load('RBF_SVM_Romney_classifier.pickle')
+f =open("RBF_SVM_romney.txt","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+rbf_svm_report.append(classification_report(labels, predict_list))
+rbf_svm_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""KNN Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("KNN Romney")
+classifier =joblib.load('KNN_Romney_classifier.pickle')
+f =open("KNN_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+knn_report.append(classification_report(labels, predict_list))
+knn_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(knn_report, knn_accuracy_list)
+fscore_list.append(fscore)
+accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
+
+"""Polynomial SVM Romney Model"""
+tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
+print("Polynomial SVM Romney")
+classifier =joblib.load('Polynomial_SVM_Romney_classifier.pickle')
+f =open("Polynomial_SVM_romney.csv","wb")
+predict_list = write_to_file_tfidf(f,classifier,tweet_list,labels)
+poly_svm_report.append(classification_report(labels, predict_list))
+poly_svm_accuracy_list.append(accuracy_score(labels, predict_list))        
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(poly_svm_report, poly_svm_accuracy_list)
+>>>>>>> origin/master
 #fscore_list.append(fscore)
 #accuracy_list.append(overall_accuracy)
 #positive_precision_list.append(positive_precision)
@@ -286,6 +432,7 @@ negative_fscore_list.append(negative_fscore)
 #negative_recall_list.append(negative_recall)
 #positive_fscore_list.append(positive_fscore)
 #negative_fscore_list.append(negative_fscore)
+<<<<<<< HEAD
 #   
 #"""Bernouli NB Romney Model"""
 #tweets,tweet_list,labels = metrics.read_file("test_romney_cleaned.txt")
@@ -416,4 +563,10 @@ negative_fscore_list.append(negative_fscore)
 #
 #
 #draw_bar_plot(accuracy_list, fscore_list)
+=======
+
+
+
+draw_bar_plot(accuracy_list, fscore_list)
+>>>>>>> origin/master
 

@@ -23,9 +23,9 @@ from Trainmodel import Naive_Bayes
 import nltk
  
 def draw_bar_plot(accuracy_list, fscore_list):
-    objects = ('NB-Uni','NB-Bi','NB-Tri','MNB', 'BNB', 'KNN', 'DT', 'AB', 'RF', 'SVM', 'RBF', 'POLY')
+    objects = ('NB-Uni','NB-Bi','NB-Tri','MNB', 'BNB', 'KNN', 'DT', 'AB', 'RF', 'SVM', 'RBF')
     y_pos = np.arange(len(objects))
-    bar_width = 0.35
+    bar_width = 0.20
      
     plt.bar(y_pos, accuracy_list, bar_width,
             alpha=0.5,
@@ -35,6 +35,14 @@ def draw_bar_plot(accuracy_list, fscore_list):
             alpha=0.5, 
             color='r', 
             label='FScore')
+    plt.bar(y_pos + (2*bar_width), positive_fscore_list, bar_width, 
+            alpha=0.5, 
+            color='g', 
+            label='Positive Fscore')
+    plt.bar(y_pos + (3*bar_width), negative_fscore_list, bar_width, 
+            alpha=0.5, 
+            color='y', 
+            label= 'Negative Fscore')         
     plt.xticks(y_pos + bar_width, objects)
     plt.xlabel('Models')
     plt.ylabel('Values')
@@ -93,10 +101,10 @@ def print_metrics(clasification_report_list, accuracy_score_list):
     print("Negative Recall: ", average_negative_recall)
     print("Negative FScore: ", average_negative_F1Score)
     return (average_precision, average_recall, average_fscore, 
-            overall_accuracy)
-#            ,average_positive_precision,average_positive_recall,
-#            average_positive_F1Score,average_negative_precision,average_positive_recall,
-#            average_negative_F1Score)
+            overall_accuracy
+            ,average_positive_precision,average_positive_recall,
+            average_positive_F1Score,average_negative_precision,average_positive_recall,
+            average_negative_F1Score)
 
 calculate_metrics = CalculateMetrics()
 tweets, tweetlist, labels = calculate_metrics.read_file("Romney_data_cleaned.txt")
@@ -133,6 +141,12 @@ precision_list = []
 recall_list = []
 fscore_list = []
 accuracy_list = []
+positive_precision_list =[]
+negative_precision_list=[]
+positive_recall_list=[]
+negative_recall_list=[]
+positive_fscore_list=[]
+negative_fscore_list=[]
 
 
 for gram in range(1,4):
@@ -277,87 +291,159 @@ for i in range(number_of_folds):
  
 
 print("\nNaive Bayes Unigram")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_uni, nb_accuracy_list_uni)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(nb_report_uni, nb_accuracy_list_uni)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nNaive Bayes Bigram")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_bi, nb_accuracy_list_bi)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(nb_report_bi, nb_accuracy_list_bi)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nNaive Bayes Trigram")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(nb_report_tri, nb_accuracy_list_tri)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(nb_report_tri, nb_accuracy_list_tri)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nMultinomial Naive Bayes Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(mnb_report, mnb_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(mnb_report, mnb_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nBernoulli Naive Bayes Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(bnb_report, bnb_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(bnb_report, bnb_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nK Nearest Neighbors Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(knn_report, knn_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(knn_report, knn_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nDecision Trees Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(dt_report, dt_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(dt_report, dt_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nAdaBoost Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(ab_report, ab_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(ab_report, ab_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nRandom Forest Classifier")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rf_report, rf_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(rf_report, rf_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nSupport Vector Machines")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(linear_svm_report, linear_svm_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(linear_svm_report, linear_svm_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
 print("\nRBF Kernel SVM")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
+precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(rbf_svm_report, rbf_svm_accuracy_list)
+precision_list.append(precision)
+recall_list.append(recall)
+fscore_list.append(fscore)
 accuracy_list.append(overall_accuracy)
+positive_precision_list.append(positive_precision)
+negative_precision_list.append(negative_precision)
+positive_recall_list.append(positive_recall)
+negative_recall_list.append(negative_recall)
+positive_fscore_list.append(positive_fscore)
+negative_fscore_list.append(negative_fscore)
 
-print("\nPolynomial Kernel SVM")
-average_precision, average_recall, average_fscore, overall_accuracy = print_metrics(poly_svm_report, poly_svm_accuracy_list)
-precision_list.append(average_precision)
-recall_list.append(average_recall)
-fscore_list.append(average_fscore)
-accuracy_list.append(overall_accuracy)
+#print("\nPolynomial Kernel SVM")
+#precision, recall, fscore, overall_accuracy,positive_precision,positive_recall, positive_fscore,negative_precision,negative_recall,negative_fscore = print_metrics(poly_svm_report, poly_svm_accuracy_list)
+#precision_list.append(precision)
+#recall_list.append(recall)
+#fscore_list.append(fscore)
+#accuracy_list.append(overall_accuracy)
+#positive_precision_list.append(positive_precision)
+#negative_precision_list.append(negative_precision)
+#positive_recall_list.append(positive_recall)
+#negative_recall_list.append(negative_recall)
+#positive_fscore_list.append(positive_fscore)
+#negative_fscore_list.append(negative_fscore)
 
 draw_bar_plot(accuracy_list, fscore_list)
